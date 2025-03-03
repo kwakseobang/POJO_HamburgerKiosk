@@ -1,4 +1,4 @@
-package customer;
+package customer.response;
 
 public enum CustomerErrorMessage {
 

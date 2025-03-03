@@ -1,5 +1,6 @@
-package admin;
+package admin.repository;
 
+import admin.entity.Admin;
 import java.util.HashMap;
 
 public class AdminRepository {

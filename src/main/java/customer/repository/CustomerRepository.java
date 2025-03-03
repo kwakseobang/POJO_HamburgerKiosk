@@ -1,5 +1,6 @@
-package customer;
+package customer.repository;
 
+import customer.entity.Customer;
 import java.util.HashMap;
 
 public class CustomerRepository {
