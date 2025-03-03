@@ -8,8 +8,8 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerInput customerInput;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerService() {
+        this.customerRepository = new CustomerRepository();
         this.customerInput = new CustomerInput();
     }
 
