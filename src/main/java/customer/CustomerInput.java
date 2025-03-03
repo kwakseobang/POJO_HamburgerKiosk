@@ -1,9 +1,10 @@
 package customer;
 
-import io.Input;
+import static io.Input.input;
+
 import io.OutPut;
 
-public class CustomerInput extends Input {
+public class CustomerInput {
 
     private final CustomerInputParser customerInputParser;
 
@@ -13,12 +14,12 @@ public class CustomerInput extends Input {
 
     public Customer inputInfo() {
         OutPut.promptMemberInfo(); // ex) 생성하실 회원의 이름과 보유금액을 입력해주세요.
-        String input = getValidatedInput();
+        String input = input();
         return customerInputParser.parseToInfo(input);
     }
 
-    public String inputUniqueNumber() {
-        OutPut.promptMemberUniqueNumber(); // ex) 접속하시는 관리자의 이름을 입력해주세요.
-        return getValidatedInput();
+    public long inputUniqueNumber() {
+        OutPut.promptMemberUniqueNumber(); // ex) 접속하시는 회원의 번호를 입력해주세요.
+        return Long.parseLong(input());
     }
 }
