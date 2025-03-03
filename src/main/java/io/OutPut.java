@@ -14,7 +14,8 @@ public class OutPut {
                 2. 관리자 생성
                 3. 관리자 접속
                 4. 회원 생성
-                5. 회원 접속""";
+                5. 회원 접속
+                """;
         System.out.println(message);
     }
 
