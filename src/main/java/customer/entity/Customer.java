@@ -1,4 +1,4 @@
-package customer;
+package customer.entity;
 
 public class Customer {
 
