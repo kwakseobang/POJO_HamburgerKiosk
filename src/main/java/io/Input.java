@@ -3,17 +3,20 @@ package io;
 import admin.AdminErrorMessage;
 import java.util.Scanner;
 
-public abstract class Input {
+public class Input {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    public String getValidatedInput() {
+    private Input() {
+    }
+
+    public static String input() {
         String input = sc.nextLine();
         validateInput(input);
         return input;
     }
 
-    protected void validateInput(String input) {
+    private static void validateInput(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException(
                 String.format(AdminErrorMessage.INVALID_INPUT.getMessage(), input)

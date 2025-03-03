@@ -5,7 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import admin.service.AdminServiceImpl;
+import admin.service.AdminService;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,19 +20,27 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AdminServiceTest {
 
     @InjectMocks
-    private AdminServiceImpl adminService;
+    private AdminService adminService;
     @Mock
     private AdminRepository adminRepository;
+    private final InputStream originalSystemInStream = System.in;
+
+    @AfterEach
+    void restoreSystemInStreamStream() {
+        System.setIn(originalSystemInStream);
+    }
 
     @Test
     @DisplayName("관리자 생성 성공 테스트")
     void createAdminSuccessTest() {
         // given
+        String input = "Kwak, 10000";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
         Admin admin = new Admin("Kwak", 10000);
         given(adminRepository.isExistName("Kwak")).willReturn(false);
 
         // when
-        Admin createdAdmin = adminService.createAdmin(admin);
+        Admin createdAdmin = adminService.createAdmin();
 
         // then
         assertThat(createdAdmin).isNotNull();
@@ -40,11 +51,13 @@ class AdminServiceTest {
     @DisplayName("존재하는 관리자 이름으로 로그인 시 테스트 통과")
     void loginAdminSuccessTest() {
         // given
+        String input = "Kwak";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
         Admin admin = new Admin("Kwak", 10000);
         given(adminRepository.findByAdmin("Kwak")).willReturn(admin);
 
         // when
-        Admin result = adminService.login("Kwak");
+        Admin result = adminService.login();
 
         // then
         assertThat(result).isNotNull().isEqualTo(admin);
@@ -55,11 +68,11 @@ class AdminServiceTest {
     void loginAdminFailTest() {
         // given
         String name = "Kwak";
-        Admin admin = new Admin(name, 10000);
+        System.setIn(new ByteArrayInputStream(name.getBytes()));
         given(adminRepository.findByAdmin(name)).willReturn(null);
 
         // when & then
-        assertThatThrownBy(() -> adminService.login(name))
+        assertThatThrownBy(() -> adminService.login())
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage(String.format(AdminErrorMessage.NOT_EXIST_NAME.getMessage(), name));
     }

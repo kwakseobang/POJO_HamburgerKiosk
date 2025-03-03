@@ -10,11 +10,11 @@ public class OutPut {
     public static void displayOption() {
         String message =
             """
-                1. 종료
-                2. 관리자 생성
-                3. 관리자 접속
-                4. 회원 생성
-                5. 회원 접속
+                0. 종료
+                1. 관리자 생성
+                2. 관리자 접속
+                3. 회원 생성
+                4. 회원 접속
                 """;
         System.out.println(message);
     }
