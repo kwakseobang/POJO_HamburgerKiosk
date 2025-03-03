@@ -1,20 +1,25 @@
-package customer;
+package customer.service;
 
-import admin.Admin;
-import admin.AdminErrorMessage;
+import admin.entity.Admin;
+import admin.response.AdminErrorMessage;
+import customer.response.CustomerErrorMessage;
+import customer.repository.CustomerRepository;
+import customer.entity.Customer;
+import io.Input;
+import order.OrderService;
 
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final CustomerInput customerInput;
+    private final OrderService orderService;
 
     public CustomerService() {
+        this.orderService = new OrderService();
         this.customerRepository = new CustomerRepository();
-        this.customerInput = new CustomerInput();
     }
 
-    public Customer createCustomer() {
-        Customer customer = customerInput.inputInfo();
+    public void createCustomer() {
+        Customer customer = Input.inputCustomerInfo();
         // TODO: 이 로직을 도메인에 넣어야 할 수도 있습니다.
         if (customerRepository.isExistId(customer.getCustomerId())) {
             throw new IllegalArgumentException(
@@ -22,11 +27,10 @@ public class CustomerService {
                     customer.getCustomerId()));
         }
         customerRepository.create(customer);
-        return customer;
     }
 
     public Customer login() {
-        long id = customerInput.inputUniqueNumber();
+        long id = Input.inputUniqueNumber();
         Customer customer = customerRepository.findByCustomer(id);
         if (customer != null) {
             return customer;
@@ -34,6 +38,11 @@ public class CustomerService {
         throw new IllegalArgumentException(
             String.format(AdminErrorMessage.NOT_EXIST_NAME.getMessage(), id));
     }
+
+    public void order(Customer customer, Admin admin) {
+        orderService.buy(customer, admin);
+    }
+
 
     public void updateAmount(Admin admin, long amount) {
         admin.updateAmount(amount);
