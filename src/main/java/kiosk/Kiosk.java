@@ -2,29 +2,29 @@ package kiosk;
 
 import static kiosk.Option.getOption;
 
+import admin.entity.Admin;
 import admin.service.AdminService;
-import customer.CustomerService;
-import io.OutPut;
+import customer.entity.Customer;
+import customer.service.CustomerService;
+import io.Input;
+import io.response.InputMessage;
 
 public class Kiosk extends KioskProcess {
 
     private final AdminService adminService;
     private final CustomerService customerService;
-    private final KioskInput kioskInput;
+    private Admin admin;
+    private Customer customer;
 
-    public Kiosk(
-        AdminService adminService,
-        CustomerService customerService
-    ) {
-        this.adminService = adminService;
-        this.customerService = customerService;
-        this.kioskInput = new KioskInput();
+    public Kiosk() {
+        this.adminService = new AdminService();
+        this.customerService = new CustomerService();
     }
 
     public void start() {
 
         while (true) {
-            int optionNum = Integer.parseInt(kioskInput.inputOption());
+            int optionNum = Integer.parseInt(Input.inputOption());
             selectOption(optionNum);
         }
     }
@@ -43,7 +43,7 @@ public class Kiosk extends KioskProcess {
 
     @Override
     protected void exit() {
-        OutPut.displayExit(); // 프로그램을 종료합니다.
+        System.out.println(InputMessage.EXIT);
         System.exit(1);
     }
 
@@ -54,7 +54,7 @@ public class Kiosk extends KioskProcess {
 
     @Override
     protected void loginAdmin() {
-        adminService.login();
+       this.admin = adminService.login();
     }
 
     @Override
@@ -64,7 +64,8 @@ public class Kiosk extends KioskProcess {
 
     @Override
     protected void loginCustomer() {
-        customerService.login();
+        this.customer = customerService.login();
+
     }
 
 }
