@@ -22,5 +22,4 @@ public class Admin {
         this.amount += amount;
     }
 
-
 }
