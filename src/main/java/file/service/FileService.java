@@ -14,9 +14,6 @@ public class FileService {
 
     private final String FILE_PATH = "src/main/resources/products.md";
 
-    public FileService() {
-    }
-
     public List<String> load() {
         File file = new File(FILE_PATH);
         validateFile(file);
@@ -36,13 +33,7 @@ public class FileService {
     public void saveMenusToFile(List<Menu> menuList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Menu menu : menuList) {
-                String line = String.format("%s,%d,%s,%s,%s",
-                    menu.getName(),
-                    menu.getPrice(),
-                    menu.getQuantity(),
-                    menu.getDescription(),
-                    menu.getCategory()
-                );
+                String line = menuFormatting(menu);
                 writer.write(line);
                 writer.newLine();
             }
@@ -51,10 +42,20 @@ public class FileService {
         }
     }
 
+    private String menuFormatting(Menu menu) {
+        return String.format("%s,%d,%s,%s,%s",
+            menu.getName(),
+            menu.getPrice(),
+            menu.getQuantity(),
+            menu.getDescription(),
+            menu.getCategory()
+        );
+    }
 
     private void validateFile(File file) {
         if (!file.exists()) {
             throw new RuntimeException(FileErrorMessage.EMPTY_FILE.getMessage());
         }
     }
+
 }

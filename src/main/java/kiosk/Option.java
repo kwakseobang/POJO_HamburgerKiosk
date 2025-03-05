@@ -19,9 +19,9 @@ public enum Option {
         return num;
     }
 
-    public static Option getOption(int i) {
+    public static Option getOption(int num) {
         for (Option option : Option.values()) {
-            if (option.getNum() == i) {
+            if (option.getNum() == num) {
                 return option;
             }
         }

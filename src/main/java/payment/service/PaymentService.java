@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import menu.entity.Menu;
 import order.entity.Order;
+import payment.dto.PaymentCreateDto;
 import payment.entity.Payment;
 import receipt.service.ReceiptService;
 
@@ -35,7 +36,12 @@ public class PaymentService {
             Menu menu = orderByMenu.get(i);
             Order order = orders.get(i);
 
-            Payment payment = new Payment(order, menu);
+            PaymentCreateDto paymentCreateDto = new PaymentCreateDto(
+                menu.getName(),
+                menu.getPrice(),
+                order.getQuantity()
+            );
+            Payment payment = paymentCreateDto.to();
             update(menu, admin, customer, payment);
             paymentList.add(payment);
         }

@@ -1,18 +1,16 @@
 package payment.entity;
 
-import menu.entity.Menu;
-import order.entity.Order;
-
 public class Payment {
 
     private String name;
-    private long quantity;
     private long price;
+    private long quantity;
 
-    public Payment(Order order, Menu menu) {
-        this.name = menu.getName();
-        this.quantity = order.getQuantity();;
-        this.price = menu.getPrice() * quantity;
+    public Payment(String menuName,long menuPrice, long orderQuantity) {
+        this.name = menuName;
+        this.price = menuPrice * orderQuantity;
+        this.quantity = orderQuantity;
+
     }
 
     public String getName() {

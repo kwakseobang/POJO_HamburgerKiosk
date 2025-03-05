@@ -9,12 +9,18 @@ public class Menu {
     private Category category;
     private boolean isSoldOut;
 
-    public Menu(String[] parsedMenuItem) {
-        this.name = parsedMenuItem[0];
-        this.price = Long.parseLong(parsedMenuItem[1]);
-        this.quantity = parsedMenuItem[2];
-        this.description = parsedMenuItem[3];
-        this.category = Category.fromString(parsedMenuItem[4]);
+    public Menu(
+        String name,
+        long price,
+        String quantity,
+        String description,
+        Category category
+        ) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.category = category;
         this.isSoldOut = false;
     }
 
@@ -42,7 +48,7 @@ public class Menu {
         return isSoldOut;
     }
 
-    public void updateSoldOut() {
+    public void updateSoldOutStatus() {
         this.isSoldOut = true;
         this.quantity = "품절";
     }
@@ -50,7 +56,7 @@ public class Menu {
     public void updateQuantity(long newQuantity) {
         long quantity = calculateQuantity(newQuantity);
         if (quantity == 0) {
-            updateSoldOut();
+            updateSoldOutStatus();
             return;
         }
         this.quantity = String.valueOf(quantity);

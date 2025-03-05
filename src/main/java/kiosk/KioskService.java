@@ -20,7 +20,7 @@ public class KioskService {
     private final MenuService menuService;
     private final AdminService adminService;
     private final CustomerService customerService;
-    private Admin admin;
+    private String adminName;
 
     public KioskService() {
         this.fileService = new FileService();
@@ -29,9 +29,8 @@ public class KioskService {
         this.customerService = new CustomerService();
     }
 
-    // 프로그램 시작
     public void start() {
-        this.fileLoad();
+        fileLoad();
         while (true) {
             int optionNum = Integer.parseInt(Input.inputOption());
             selectOption(optionNum);
@@ -39,7 +38,6 @@ public class KioskService {
 
     }
 
-    // 파일 로드
     private void fileLoad() {
         menuService.createMenuList();
     }
@@ -65,7 +63,7 @@ public class KioskService {
     }
 
     private void loginAdmin() {
-        this.admin = adminService.login(Input.inputAdminName());
+        adminName = adminService.login(Input.inputAdminName());
     }
 
     private void createCustomer() {
@@ -73,17 +71,20 @@ public class KioskService {
     }
 
     private void loginCustomer() {
-        adminService.validateLoginStatus(admin);
+        Admin admin = adminService.findLoggedInAdminByName(adminName);
         Customer customer = customerService.login(Input.inputUniqueNumber());
+        processOrder(admin, customer);
+        fileService.saveMenusToFile(adminService.readMenuList());
+    }
+
+    private void processOrder(Admin admin, Customer customer) {
         while (true) {
-            OutPut.displayIntro(customer.getCustomerId(), admin.getName());
+            OutPut.displayIntro(customer.getCustomerId(), adminName);
             List<Menu> menuList = adminService.readMenuList();
-            customerService.order(menuList,admin,customer);
+            customerService.order(menuList, admin, customer);
             if (!isExtraOrder()) {
                 break;
             }
-            fileService.saveMenusToFile(adminService.readMenuList());
-
         }
     }
 

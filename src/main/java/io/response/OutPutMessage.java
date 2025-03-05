@@ -27,6 +27,7 @@ public enum OutPutMessage {
         \n"""
     ),
     ;
+
     private final String message;
 
     OutPutMessage(String message) {

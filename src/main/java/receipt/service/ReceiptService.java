@@ -9,7 +9,6 @@ import payment.entity.Payment;
 
 public class ReceiptService {
 
-
     public void displayReceipt(
         Customer customer,
         Admin admin,
@@ -25,4 +24,3 @@ public class ReceiptService {
     }
 
 }
-
