@@ -33,7 +33,7 @@ public class AdminService {
 
     public String login(String name) {
         Admin admin = findAdminByName(name);
-        registerLoggedInAdmin(admin);
+        adminRepository.registerLoggedInAdmin(admin);
         return admin.getName();
     }
 
@@ -42,10 +42,6 @@ public class AdminService {
             .orElseThrow(() -> new IllegalArgumentException(
                 String.format(AdminErrorMessage.NOT_EXIST_ADMIN.getMessage(), name)
             ));
-    }
-
-    private void registerLoggedInAdmin(Admin admin) {
-        adminRepository.registerLoggedInAdmin(admin);
     }
 
     private void validateDuplicateAdminName(String name) {
