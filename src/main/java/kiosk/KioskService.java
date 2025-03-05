@@ -79,14 +79,19 @@ public class KioskService {
             OutPut.displayIntro(customer.getCustomerId(), admin.getName());
             List<Menu> menuList = adminService.readMenuList();
             customerService.order(menuList,admin,customer);
-            isExtraOrder();
+            if (!isExtraOrder()) {
+                break;
+            }
+            fileService.saveMenusToFile(adminService.readMenuList());
+
         }
     }
 
-    private void isExtraOrder() {
-        if (!Input.isExtraOrder().equals("Y")) {
-            exit();
+    private boolean isExtraOrder() {
+        if (Input.isExtraOrder().equals("Y")) {
+            return true;
         }
+        return false;
     }
 
 }
