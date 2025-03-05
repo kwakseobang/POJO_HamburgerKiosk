@@ -15,7 +15,7 @@ public enum OutPutMessage {
         상품명       수량    금액
         """),
     DISPLAY_RECEIPT_BODY("""
-        %s       %s    %s
+        %-10s %-6s %-6s
         """
     ),
     DISPLAY_RECEIPT_FOOTER("""
@@ -24,7 +24,7 @@ public enum OutPutMessage {
         =====================
         판매자: %s, %s
         구매자: %s, %s
-        """
+        \n"""
     ),
     ;
     private final String message;
