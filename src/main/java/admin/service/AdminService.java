@@ -23,24 +23,36 @@ public class AdminService {
     }
 
     public void create(Admin admin) {
-        if (adminRepository.isExistName(admin.getName())) {
-            throw new IllegalArgumentException(
-                String.format(AdminErrorMessage.DUPLICATION_ADMIN.getMessage(), admin.getName())
-            );
-        }
+        validateDuplicateAdminName(admin.getName());
         adminRepository.create(admin);
     }
 
-    public Admin login(String name) {
+    public Admin findLoggedInAdminByName(String adminName) {
+        return adminRepository.findLoggedInAdminByName(adminName);
+    }
+
+    public String login(String name) {
+        Admin admin = findAdminByName(name);
+        registerLoggedInAdmin(admin);
+        return admin.getName();
+    }
+
+    private Admin findAdminByName(String name) {
         return adminRepository.findByAdmin(name)
             .orElseThrow(() -> new IllegalArgumentException(
                 String.format(AdminErrorMessage.NOT_EXIST_ADMIN.getMessage(), name)
             ));
     }
 
-    public void validateLoginStatus(Admin admin) {
-        if (admin == null) {
-            throw new RuntimeException(AdminErrorMessage.UNAUTHORIZED_ADMIN.getMessage());
+    private void registerLoggedInAdmin(Admin admin) {
+        adminRepository.registerLoggedInAdmin(admin);
+    }
+
+    private void validateDuplicateAdminName(String name) {
+        if (adminRepository.isExistByName(name)) {
+            throw new IllegalArgumentException(
+                String.format(AdminErrorMessage.DUPLICATION_ADMIN.getMessage(), name)
+            );
         }
     }
 
