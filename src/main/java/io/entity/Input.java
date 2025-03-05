@@ -1,8 +1,10 @@
 package io.entity;
 
+import admin.entity.Admin;
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.Scanner;
+import parser.Parser;
 
 public class Input {
 
@@ -11,11 +13,10 @@ public class Input {
     private Input() {
     }
 
-//    public static Admin inputAdminInfo() {
-//        String input = input(
-//            InputMessage.CREATE_ADMIN.getMessage());  // ex) 생성하실 관리자의 이름과 보유금액을 입력해주세요.
-//        return Parser.parseToAdminInfo(input);
-//    }
+    public static Admin inputAdminInfo() {
+        String input = input(InputMessage.CREATE_ADMIN.getMessage());
+        return Parser.parseToAdminInfo(input);
+    }
 
     public static String inputAdminName() {
         return input(InputMessage.LOGIN_ADMIN.getMessage());
