@@ -8,7 +8,10 @@ import customer.entity.Customer;
 import customer.service.CustomerService;
 import file.service.FileService;
 import io.entity.Input;
+import io.entity.OutPut;
 import io.response.OutPutMessage;
+import java.util.List;
+import menu.entity.Menu;
 import menu.service.MenuService;
 
 public class KioskService {
@@ -73,16 +76,11 @@ public class KioskService {
         adminService.validateLoginStatus(admin);
         Customer customer = customerService.login(Input.inputUniqueNumber());
         while (true) {
-            customerService.order();
+            OutPut.displayIntro(customer.getCustomerId(), admin.getName());
+            List<Menu> menuList = adminService.readMenuList();
+            customerService.order(menuList);
             isExtraOrder();
         }
-//        Order order = new Order();
-//        System.out.printf(
-//            (OutPutMessage.DISPLAY_INTRO.getMessage()) + "%n",
-//            customer.getCustomerId(),admin.getName()
-//        );
-//
-//        customer.order(admin, order);
     }
 
     private void isExtraOrder() {

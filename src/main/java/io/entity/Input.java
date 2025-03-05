@@ -4,7 +4,9 @@ import admin.entity.Admin;
 import customer.entity.Customer;
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
+import java.util.List;
 import java.util.Scanner;
+import order.entity.Order;
 import parser.Parser;
 
 public class Input {
@@ -42,10 +44,10 @@ public class Input {
       return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
     }
 
-//    public static List<OrderDto> inputMenu() {
-//        String orders = input(InputMessage.ORDER_MENU.getMessage());
-//        return Parser.parseToOrders(orders);
-//    }
+    public static List<Order> inputMenu() {
+        String orders = input(InputMessage.ORDER_MENU.getMessage());
+        return Parser.parseToOrders(orders);
+    }
 
     private static String input(String message) {
         displayMessage(message);
