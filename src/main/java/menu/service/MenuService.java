@@ -11,9 +11,9 @@ public class MenuService {
     private final FileService fileService;
     private final MenuRepository menuRepository;
 
-    public MenuService(FileService fileService, MenuRepository menuRepository) {
+    public MenuService(FileService fileService) {
         this.fileService = fileService;
-        this.menuRepository = menuRepository;
+        this.menuRepository = new MenuRepository();
     }
 
     public void createMenuList() {
@@ -26,7 +26,7 @@ public class MenuService {
     }
 
     public List<Menu> readMenuList() {
-        return menuRepository.readMenuList();
+        return menuRepository.getMenuList();
     }
 
     private List<String> loadFile() {
