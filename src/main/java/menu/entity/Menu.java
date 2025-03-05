@@ -44,16 +44,21 @@ public class Menu {
 
     public void updateSoldOut() {
         this.isSoldOut = true;
+        this.quantity = "품절";
     }
 
-//    public void updateQuantity(String newQuantity) {
-//        String quantity = calculateQuantity(this.quantity, newQuantity);
-//        if (quantity.equals("0")) {
-//            isSoldOut();
-//            this.quantity = "품절";
-//            return;
-//        }
-//        this.quantity = quantity;
-//    }
+    public void updateQuantity(long newQuantity) {
+        long quantity = calculateQuantity(newQuantity);
+        if (quantity == 0) {
+            updateSoldOut();
+            return;
+        }
+        this.quantity = String.valueOf(quantity);
+    }
+
+    public long calculateQuantity(long newQuantity) {
+        return Long.parseLong(this.quantity) - newQuantity;
+
+    }
 
 }

@@ -1,5 +1,6 @@
 package customer.service;
 
+import admin.entity.Admin;
 import customer.entity.Customer;
 import customer.repository.CustomerRepository;
 import customer.response.CustomerErrorMessage;
@@ -13,6 +14,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final OrderService orderService;
+
 
     public CustomerService() {
         this.customerRepository = new CustomerRepository();
@@ -35,10 +37,9 @@ public class CustomerService {
             ));
     }
 
-    public void order(List<Menu> menuList) {
+    public void order(List<Menu> menuList, Admin admin, Customer customer) {
         OutPut.displayMenuList(menuList);
-        orderService.order(Input.inputMenu(), menuList);
-
+        orderService.order(Input.inputMenu(), menuList, admin, customer);
     }
 
 }

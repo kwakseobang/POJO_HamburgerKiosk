@@ -78,7 +78,7 @@ public class KioskService {
         while (true) {
             OutPut.displayIntro(customer.getCustomerId(), admin.getName());
             List<Menu> menuList = adminService.readMenuList();
-            customerService.order(menuList);
+            customerService.order(menuList,admin,customer);
             isExtraOrder();
         }
     }
