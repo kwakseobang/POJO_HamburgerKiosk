@@ -4,13 +4,19 @@ import customer.entity.Customer;
 import customer.repository.CustomerRepository;
 import customer.response.CustomerErrorMessage;
 import io.entity.Input;
+import io.entity.OutPut;
+import java.util.List;
+import menu.entity.Menu;
+import order.service.OrderService;
 
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final OrderService orderService;
 
     public CustomerService() {
         this.customerRepository = new CustomerRepository();
+        this.orderService = new OrderService();
     }
 
     public void create(Customer customer) {
@@ -29,7 +35,9 @@ public class CustomerService {
             ));
     }
 
-    public void order() {
+    public void order(List<Menu> menuList) {
+        OutPut.displayMenuList(menuList);
+        orderService.order(Input.inputMenu(), menuList);
 
     }
 
