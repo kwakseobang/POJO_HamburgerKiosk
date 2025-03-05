@@ -3,6 +3,7 @@ package parser;
 import static parser.Delimiter.COMMA;
 
 import admin.entity.Admin;
+import customer.entity.Customer;
 import io.response.InputErrorMessage;
 import java.util.Arrays;
 
@@ -18,7 +19,7 @@ public class Parser {
             .toArray(String[]::new);
     }
 
-    // TODO: 둘 다 유사하여 리팩토링 가능함.
+    // TODO: parseToAdminInfo, parseToCustomerInfo 둘 다 유사하여 리팩토링 가능함.
     public static Admin parseToAdminInfo(String input) {
         validateSeparator(input);
 
@@ -27,6 +28,16 @@ public class Parser {
         long amount = Long.parseLong(parsedInput[1].trim()); // 공백 제거 후 변환
 
         return new Admin(name, amount);
+    }
+
+    public static Customer parseToCustomerInfo(String input) {
+        validateSeparator(input);
+
+        String[] paredInput = input.split(COMMA.getDelimiter());
+        long id = Long.parseLong(paredInput[0]);
+        long amount = Long.parseLong(paredInput[1].trim()); // 공백 제거 후 변환
+
+        return new Customer(id, amount);
     }
 
     private static void validateSeparator(String input) {
