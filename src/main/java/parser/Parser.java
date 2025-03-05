@@ -6,8 +6,8 @@ import static parser.Delimiter.HYPHEN;
 import static parser.Delimiter.LEFT_BRACKET;
 import static parser.Delimiter.RIGHT_BRACKET;
 
-import admin.entity.Admin;
-import customer.entity.Customer;
+import admin.dto.AdminCreateDto;
+import customer.dto.CustomerCreateDto;
 import io.response.InputErrorMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,24 +29,24 @@ public class Parser {
     }
 
     // TODO: parseToAdminInfo, parseToCustomerInfo 둘 다 유사하여 리팩토링 가능함.
-    public static Admin parseToAdminInfo(String input) {
+    public static AdminCreateDto parseToAdminInfo(String input) {
         validateSeparator(input);
 
         String[] parsedInput = input.split(COMMA.getDelimiter());
         String name = parsedInput[0];
         long amount = Long.parseLong(parsedInput[1].trim()); // 공백 제거 후 변환
 
-        return new Admin(name, amount);
+        return new AdminCreateDto(name, amount);
     }
 
-    public static Customer parseToCustomerInfo(String input) {
+    public static CustomerCreateDto parseToCustomerInfo(String input) {
         validateSeparator(input);
 
         String[] paredInput = input.split(COMMA.getDelimiter());
         long id = Long.parseLong(paredInput[0]);
         long amount = Long.parseLong(paredInput[1].trim()); // 공백 제거 후 변환
 
-        return new Customer(id, amount);
+        return new CustomerCreateDto(id, amount);
     }
 
     public static List<Order> parseToOrders(String orders) {

@@ -1,6 +1,8 @@
 package io.entity;
 
+import admin.dto.AdminCreateDto;
 import admin.entity.Admin;
+import customer.dto.CustomerCreateDto;
 import customer.entity.Customer;
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
@@ -18,7 +20,8 @@ public class Input {
 
     public static Admin inputAdminInfo() {
         String input = input(InputMessage.CREATE_ADMIN.getMessage());
-        return Parser.parseToAdminInfo(input);
+        AdminCreateDto adminCreateDto = Parser.parseToAdminInfo(input);
+        return adminCreateDto.to();
     }
 
     public static String inputAdminName() {
@@ -28,7 +31,8 @@ public class Input {
     public static Customer inputCustomerInfo() {
         String input = input(
             InputMessage.CREATE_CUSTOMER.getMessage());
-        return Parser.parseToCustomerInfo(input);
+        CustomerCreateDto customerCreateDto = Parser.parseToCustomerInfo(input);
+        return customerCreateDto.to();
     }
 
     public static long inputUniqueNumber() {
