@@ -1,6 +1,7 @@
 package io.entity;
 
 import admin.entity.Admin;
+import customer.entity.Customer;
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.Scanner;
@@ -22,11 +23,11 @@ public class Input {
         return input(InputMessage.LOGIN_ADMIN.getMessage());
     }
 
-//    public static Customer inputCustomerInfo() {
-//        String input = input(
-//            InputMessage.CREATE_CUSTOMER.getMessage());
-//        return Parser.parseToCustomerInfo(input);
-//    }
+    public static Customer inputCustomerInfo() {
+        String input = input(
+            InputMessage.CREATE_CUSTOMER.getMessage());
+        return Parser.parseToCustomerInfo(input);
+    }
 
     public static long inputUniqueNumber() {
         return Long.parseLong(
