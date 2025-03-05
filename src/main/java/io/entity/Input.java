@@ -38,6 +38,10 @@ public class Input {
         return input(InputMessage.DISPLAY_OPTION.getMessage());
     }
 
+    public static String isExtraOrder() {
+      return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
+    }
+
 //    public static List<OrderDto> inputMenu() {
 //        String orders = input(InputMessage.ORDER_MENU.getMessage());
 //        return Parser.parseToOrders(orders);
