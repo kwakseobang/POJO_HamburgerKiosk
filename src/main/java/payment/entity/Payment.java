@@ -2,15 +2,14 @@ package payment.entity;
 
 public class Payment {
 
-    private String name;
-    private long price;
-    private long quantity;
+    private final String name;
+    private final long price;
+    private final long quantity;
 
-    public Payment(String menuName,long menuPrice, long orderQuantity) {
+    public Payment(String menuName, long menuPrice, long orderQuantity) {
         this.name = menuName;
-        this.price = menuPrice * orderQuantity;
+        this.price = menuPrice;
         this.quantity = orderQuantity;
-
     }
 
     public String getName() {
