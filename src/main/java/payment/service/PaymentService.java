@@ -21,7 +21,7 @@ public class PaymentService {
         List<Payment> paymentList = createPayment(orders, orderByMenu, admin, customer);
         long totalPrice = calculateTotalPrice(paymentList);
         long totalQuantity = calculateTotalQuantity(paymentList);
-//        receiptService.displayReceipt(customer, admin, paymentList, totalPrice, totalQuantity);
+        receiptService.displayReceipt(customer, admin, paymentList, totalPrice, totalQuantity);
     }
 
     private List<Payment> createPayment(

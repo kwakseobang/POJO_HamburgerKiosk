@@ -1,8 +1,11 @@
 package io.entity;
 
+import admin.entity.Admin;
+import customer.entity.Customer;
 import io.response.OutPutMessage;
 import java.util.List;
 import menu.entity.Menu;
+import payment.entity.Payment;
 
 public class OutPut {
 
@@ -25,6 +28,36 @@ public class OutPut {
         System.out.printf(
             (OutPutMessage.DISPLAY_INTRO.getMessage()) + "%n",
             customerId, adminName
+        );
+    }
+
+    public static void displayReceiptHeader() {
+        System.out.println(OutPutMessage.DISPLAY_RECEIPT_HEADER.getMessage());
+    }
+
+    public static void displayReceiptBody(Payment payment) {
+        System.out.printf(
+            OutPutMessage.DISPLAY_RECEIPT_BODY.getMessage(),
+            payment.getName(),
+            payment.getQuantity(),
+            payment.getPrice()
+        );
+    }
+
+    public static void displayReceiptFooter(
+        Admin admin,
+        Customer customer,
+        long totalPrice,
+        long totalQuantity
+    ) {
+        System.out.printf(
+            OutPutMessage.DISPLAY_RECEIPT_FOOTER.getMessage(),
+            totalQuantity,
+            totalPrice,
+            admin.getName(),
+            admin.getAmount(),
+            customer.getCustomerId(),
+            customer.getAmount()
         );
     }
 
