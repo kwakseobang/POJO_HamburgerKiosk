@@ -14,17 +14,16 @@ public class AdminService {
     private MenuService menuService;
     private AdminRepository adminRepository;
 
-    public AdminService(MenuService menuService, AdminRepository adminRepository) {
+    public AdminService(MenuService menuService) {
         this.menuService = menuService;
-        this.adminRepository = adminRepository;
+        this.adminRepository = new AdminRepository();
     }
 
     public List<Menu> readMenuList() {
         return menuService.readMenuList();
     }
 
-    public void create() {
-        Admin admin = Input.inputAdminInfo();
+    public void create(Admin admin) {
         if (adminRepository.isExistName(admin.getName())) {
             throw new IllegalArgumentException(
                 String.format(AdminErrorMessage.DUPLICATION_ADMIN.getMessage(), admin.getName())
@@ -33,12 +32,17 @@ public class AdminService {
         adminRepository.create(admin);
     }
 
-    public Admin login() {
-        String name = Input.inputAdminName();
+    public Admin login(String name) {
         return adminRepository.findByAdmin(name)
             .orElseThrow(() -> new IllegalArgumentException(
                 String.format(AdminErrorMessage.NOT_EXIST_ADMIN.getMessage(), name)
             ));
+    }
+
+    public void validateLoginStatus(Admin admin) {
+        if (admin == null) {
+            throw new RuntimeException(AdminErrorMessage.UNAUTHORIZED_ADMIN.getMessage());
+        }
     }
 
 }
