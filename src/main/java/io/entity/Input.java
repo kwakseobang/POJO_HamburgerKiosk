@@ -45,7 +45,7 @@ public class Input {
     }
 
     public static String isExtraOrder() {
-      return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
+        return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
     }
 
     public static List<Order> inputMenu() {
