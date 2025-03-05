@@ -30,6 +30,10 @@ public class Menu {
         return quantity;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String getCategory() {
         return category.getName();
     }
