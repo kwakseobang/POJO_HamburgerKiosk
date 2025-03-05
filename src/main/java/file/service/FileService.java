@@ -2,10 +2,13 @@ package file.service;
 
 import file.response.FileErrorMessage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import menu.entity.Menu;
 
 public class FileService {
 
@@ -29,6 +32,25 @@ public class FileService {
             throw new RuntimeException(FileErrorMessage.FAILED_READ_FILE.getMessage());
         }
     }
+
+    public void saveMenusToFile(List<Menu> menuList) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Menu menu : menuList) {
+                String line = String.format("%s,%d,%s,%s,%s",
+                    menu.getName(),
+                    menu.getPrice(),
+                    menu.getQuantity(),
+                    menu.getDescription(),
+                    menu.getCategory()
+                );
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(FileErrorMessage.FAILED_WRITE_FILE.getMessage());
+        }
+    }
+
 
     private void validateFile(File file) {
         if (!file.exists()) {
