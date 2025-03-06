@@ -5,6 +5,7 @@ import customer.entity.Customer;
 import io.response.OutPutMessage;
 import java.util.List;
 import menu.entity.Menu;
+import menu.entity.MenuStatus;
 import payment.entity.Payment;
 
 public class OutPut {
@@ -16,7 +17,7 @@ public class OutPut {
         for (Menu menu : menuList) {
             System.out.printf(OutPutMessage.DISPLAY_MENU.getMessage(),
                 menu.getName(),
-                menu.getPrice() + "원",
+                menu.getPrice() + MenuStatus.WON.name(),
                 isSoldOut(menu.getQuantity()),
                 menu.getDescription(),
                 menu.getCategory()
@@ -62,10 +63,10 @@ public class OutPut {
     }
 
     private static String isSoldOut(String menuQuantity) {
-        if (menuQuantity.equals("품절")) {
+        if (menuQuantity.equals(MenuStatus.SOLD_OUT.name())) {
             return menuQuantity;
         }
-        return menuQuantity + "개";
+        return menuQuantity + MenuStatus.COUNT.name();
     }
 
 }
