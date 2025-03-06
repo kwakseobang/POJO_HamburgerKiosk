@@ -4,6 +4,7 @@ public enum OutPutMessage {
 
     EXIT("프로그램을 종료합니다."),
     DISPLAY_INTRO("""
+        \n
         안녕하세요. %s님 햄버거 가게 입니다.
         현재 접속된 관리자는 %s 입니다.
         """),

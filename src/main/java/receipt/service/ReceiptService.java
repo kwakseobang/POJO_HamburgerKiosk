@@ -3,7 +3,6 @@ package receipt.service;
 import admin.entity.Admin;
 import customer.entity.Customer;
 import io.entity.OutPut;
-import io.response.OutPutMessage;
 import java.util.List;
 import payment.entity.Payment;
 
@@ -16,7 +15,7 @@ public class ReceiptService {
         long totalPrice,
         long totalQuantity
     ) {
-        System.out.println(OutPutMessage.DISPLAY_RECEIPT_HEADER.getMessage());
+        OutPut.displayReceiptHeader();
         for (Payment payment : paymentList) {
             OutPut.displayReceiptBody(payment);
         }
