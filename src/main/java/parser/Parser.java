@@ -29,8 +29,8 @@ public class Parser {
 
     // TODO: parseToAdminInfo, parseToCustomerInfo 둘 다 유사하여 리팩토링 가능함.
     public static AdminCreateDto parseToAdminInfo(String input) {
-        validateSeparator(input);
-
+        validateComma(input);
+        // ex) [치킨버거,1000]
         String[] parsedInput = StringConverter.toStringArray(input);
         String name = parsedInput[0];
         long amount = parseToLong(parsedInput[1].trim());  // 공백 제거 후 변환
@@ -39,7 +39,7 @@ public class Parser {
     }
 
     public static CustomerCreateDto parseToCustomerInfo(String input) {
-        validateSeparator(input);
+        validateComma(input);
 
         String[] paredInput = StringConverter.toStringArray(input);
         long id = parseToLong(paredInput[0]);
@@ -49,7 +49,8 @@ public class Parser {
     }
 
     public static List<Order> parseToOrders(String orders) {
-//        validateSeparator(orders);
+        validateBracket(orders);
+
         String[] parsedOrder = StringConverter.toStringArray(orders);
         List<Order> orderList = new ArrayList<>();
 
@@ -61,6 +62,7 @@ public class Parser {
     }
 
     private static String[] parseToOrder(String order) {
+        validateBracket(order);
         String empty = EMPTY.getDelimiter();
         order = order.replace(
                 LEFT_BRACKET.getDelimiter(), empty
@@ -82,8 +84,16 @@ public class Parser {
     }
 
     // ,를 기준으로 나누고 다른 구분자가 있더라도 이름에 포함되면 유효하다.
-    private static void validateSeparator(String input) {
+    private static void validateComma(String input) {
         if (input.contains(COMMA.getDelimiter())) {
+            return;
+        }
+        throw new IllegalArgumentException(InputErrorMessage.INVALID_DELIMITER.getMessage());
+    }
+
+    private static void validateBracket(String input) {
+        if (input.startsWith(LEFT_BRACKET.getDelimiter()) &&
+            input.endsWith(RIGHT_BRACKET.getDelimiter())) {
             return;
         }
         throw new IllegalArgumentException(InputErrorMessage.INVALID_DELIMITER.getMessage());
