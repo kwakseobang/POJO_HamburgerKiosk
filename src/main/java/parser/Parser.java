@@ -61,6 +61,14 @@ public class Parser {
         return orderList;
     }
 
+    public static int parseToInteger(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());
+        }
+    }
+
     private static String[] parseToOrder(String order) {
         validateBracket(order);
         String empty = EMPTY.getDelimiter();
