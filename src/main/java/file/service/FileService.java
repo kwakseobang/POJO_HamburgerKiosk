@@ -24,6 +24,7 @@ public class FileService {
             while ((readLine = br.readLine()) != null) {
                 fileLines.add(readLine);
             }
+            br.close();
             return fileLines;
         } catch (IOException ex) {
             throw new RuntimeException(FileErrorMessage.FAILED_READ_FILE.getMessage());
@@ -31,12 +32,15 @@ public class FileService {
     }
 
     public void saveMenusToFile(List<Menu> menuList) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));
             for (Menu menu : menuList) {
                 String line = menuFormatting(menu);
                 writer.write(line);
                 writer.newLine();
             }
+            writer.close();
         } catch (IOException ex) {
             throw new RuntimeException(FileErrorMessage.FAILED_WRITE_FILE.getMessage());
         }

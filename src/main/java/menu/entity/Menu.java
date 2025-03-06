@@ -15,13 +15,13 @@ public class Menu {
         String quantity,
         String description,
         Category category
-        ) {
+    ) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
         this.category = category;
-        this.isSoldOut = false;
+        this.isSoldOut = checkedSoldOut(quantity); // 초기에 품절 됐을 경우 가 있기에 체크
     }
 
     public String getName() {
@@ -50,8 +50,9 @@ public class Menu {
 
     public void updateSoldOutStatus() {
         this.isSoldOut = true;
-        this.quantity = "품절";
+        this.quantity = MenuStatus.SOLD_OUT.name();
     }
+
 
     public void updateQuantity(long newQuantity) {
         long quantity = calculateQuantity(newQuantity);
@@ -64,7 +65,13 @@ public class Menu {
 
     public long calculateQuantity(long newQuantity) {
         return Long.parseLong(this.quantity) - newQuantity;
+    }
 
+    private boolean checkedSoldOut(String quantity) {
+        if (quantity.equals(MenuStatus.SOLD_OUT.name())) {
+            return true;
+        }
+        return false;
     }
 
 }

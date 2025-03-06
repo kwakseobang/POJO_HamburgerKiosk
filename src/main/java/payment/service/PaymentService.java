@@ -19,13 +19,13 @@ public class PaymentService {
     }
 
     public void pay(List<Order> orders, List<Menu> orderByMenu, Admin admin, Customer customer) {
-        List<Payment> paymentList = createPayment(orders, orderByMenu, admin, customer);
+        List<Payment> paymentList = createPaymentList(orders, orderByMenu, admin, customer);
         long totalPrice = calculateTotalPrice(paymentList);
         long totalQuantity = calculateTotalQuantity(paymentList);
         receiptService.displayReceipt(customer, admin, paymentList, totalPrice, totalQuantity);
     }
 
-    private List<Payment> createPayment(
+    private List<Payment> createPaymentList(
         List<Order> orders,
         List<Menu> orderByMenu,
         Admin admin,
@@ -36,12 +36,7 @@ public class PaymentService {
             Menu menu = orderByMenu.get(i);
             Order order = orders.get(i);
 
-            PaymentCreateDto paymentCreateDto = new PaymentCreateDto(
-                menu.getName(),
-                menu.getPrice(),
-                order.getQuantity()
-            );
-            Payment payment = paymentCreateDto.to();
+            Payment payment = createPayment(menu.getName(), menu.getPrice(), order.getQuantity());
             update(menu, admin, customer, payment);
             paymentList.add(payment);
         }
@@ -60,6 +55,15 @@ public class PaymentService {
 
     private long calculateTotalQuantity(List<Payment> payments) {
         return payments.stream().mapToLong(Payment::getQuantity).sum();
+    }
+
+    private Payment createPayment(String menuName, long menuPrice, long orderQuantity) {
+        PaymentCreateDto paymentCreateDto = new PaymentCreateDto(
+            menuName,
+            menuPrice,
+            orderQuantity
+        );
+        return paymentCreateDto.to();
     }
 
 }

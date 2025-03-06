@@ -40,8 +40,8 @@ public class Input {
             input(InputMessage.LOGIN_CUSTOMER.getMessage()));
     }
 
-    public static String inputOption() {
-        return input(InputMessage.DISPLAY_OPTION.getMessage());
+    public static int inputOption() {
+        return Parser.parseToInteger(input(InputMessage.DISPLAY_OPTION.getMessage()));
     }
 
     public static String isExtraOrder() {

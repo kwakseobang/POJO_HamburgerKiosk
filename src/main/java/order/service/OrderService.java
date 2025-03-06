@@ -17,11 +17,12 @@ public class OrderService {
     }
 
     public void order(List<Order> orders, List<Menu> menuList, Admin admin, Customer customer) {
-        List<Menu> orderByMenu = new ArrayList<>();
+        List<Menu> orderedMenuList = new ArrayList<>();
         for (Order order : orders) {
-            orderByMenu.add(order.validateOrderedMenu(menuList));
+            orderedMenuList.add(order.validateOrderedMenu(menuList));
         }
-        paymentService.pay(orders, orderByMenu, admin, customer);
+
+        paymentService.pay(orders, orderedMenuList, admin, customer);
     }
 
 }
