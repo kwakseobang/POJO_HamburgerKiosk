@@ -6,10 +6,15 @@ public class Payment {
     private final long price;
     private final long quantity;
 
-    public Payment(String menuName, long menuPrice, long orderQuantity) {
-        this.name = menuName;
-        this.price = menuPrice;
-        this.quantity = orderQuantity;
+    private Payment(String name, long price, long quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // 생성 시 유효성 검사, 변환, 추가 로직 등 다양하게 사용 가능
+    public static Payment createPayment(String name, long price, long quantity) {
+        return new Payment(name,price,quantity);
     }
 
     public String getName() {

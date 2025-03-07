@@ -1,7 +1,7 @@
 package menu.repository;
 
+import menu.domain.Menu;
 import menu.domain.MenuList;
-import menu.dto.MenuCreateDto;
 
 public class MenuRepository {
 
@@ -11,8 +11,8 @@ public class MenuRepository {
         menuList = new MenuList();
     }
 
-    public void save(MenuCreateDto menuCreateDto) {
-        menuList.add(menuCreateDto.to());
+    public void save(Menu menu) {
+        menuList.add(menu);
     }
 
     public MenuList getMenuList() {
