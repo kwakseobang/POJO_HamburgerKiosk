@@ -1,10 +1,14 @@
 package menu.domain;
 
+import java.util.List;
+import menu.response.MenuErrorMessage;
+import parser.Parser;
+
 public class Menu {
 
     private String name;
     private long price;
-    private String quantity;
+    private Long quantity;
     private String description;
     private Category category;
     private boolean isSoldOut;
@@ -12,7 +16,7 @@ public class Menu {
     public Menu(
         String name,
         long price,
-        String quantity,
+        Long quantity,
         String description,
         Category category
     ) {
@@ -32,7 +36,7 @@ public class Menu {
         return price;
     }
 
-    public String getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
@@ -50,9 +54,15 @@ public class Menu {
 
     public void updateSoldOutStatus() {
         this.isSoldOut = true;
-        this.quantity = MenuStatus.SOLD_OUT.name();
     }
 
+    public static Menu findByMenu(String name, List<Menu> menuList) {
+        return menuList.stream()
+            .filter(menu -> menu.getName().equals(name)).findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(
+                String.format(MenuErrorMessage.NOT_EXIST_MENU.getMessage(), name)
+            ));
+    }
 
     public void updateQuantity(long newQuantity) {
         long quantity = calculateQuantity(newQuantity);
@@ -60,18 +70,23 @@ public class Menu {
             updateSoldOutStatus();
             return;
         }
-        this.quantity = String.valueOf(quantity);
+        this.quantity = quantity;
     }
 
     public long calculateQuantity(long newQuantity) {
-        return Long.parseLong(this.quantity) - newQuantity;
+        return this.quantity - newQuantity;
     }
 
-    private boolean checkedSoldOut(String quantity) {
-        if (quantity.equals(MenuStatus.SOLD_OUT.name())) {
-            return true;
-        }
-        return false;
+    private boolean checkedSoldOut(Long quantity) {
+        return quantity == 0;
     }
+//    private String isSet(String setName) {
+//        String burgerName = Parser.parseToBurgerName(setName);
+////        findByMenu()
+//    }
 
+    // 메뉴 리스트 객체를 따로 만든다. static 으로
+    // 메뉴에서 메뉴 리스트 객체를 참조한다.
+    // 메뉴가 세트일 경우 세트를 제외한 ㅇ이름만 추출해서 뽑아내고
+    // 그 개수를 세트 메뉴 객체 개수에 주입해서 같은 곳을 바라보게 만든다.
 }

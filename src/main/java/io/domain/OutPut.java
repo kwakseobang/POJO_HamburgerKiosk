@@ -62,9 +62,9 @@ public class OutPut {
         );
     }
 
-    private static String isSoldOut(String menuQuantity) {
-        if (menuQuantity.equals(MenuStatus.SOLD_OUT.getName())) {
-            return menuQuantity;
+    private static String isSoldOut(Long menuQuantity) {
+        if (menuQuantity == 0) {
+            return MenuStatus.SOLD_OUT.getName();
         }
         return menuQuantity + MenuStatus.COUNT.getName();
     }

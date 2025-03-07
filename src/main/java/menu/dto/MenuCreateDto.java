@@ -6,7 +6,7 @@ import menu.domain.Menu;
 public record MenuCreateDto(
     String name,
     long price,
-    String quantity,
+    Long quantity,
     String description,
     String category
 ) {
@@ -14,7 +14,7 @@ public record MenuCreateDto(
     public MenuCreateDto(String[] parsedData) {
         this(parsedData[0],
             Long.parseLong(parsedData[1]),
-            parsedData[2],
+            Long.parseLong(parsedData[2]),
             parsedData[3],
             parsedData[4]);
     }
