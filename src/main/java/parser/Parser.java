@@ -11,8 +11,9 @@ import customer.dto.CustomerCreateDto;
 import io.response.InputErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
-import order.dto.OrderCreateDto;
+import menu.domain.Category;
 import order.domain.Order;
+import order.dto.OrderCreateDto;
 import util.StringConverter;
 
 public class Parser {
@@ -20,6 +21,10 @@ public class Parser {
     private static final int ORDER_ITEMS_COUNT = 2;
 
     private Parser() {
+    }
+
+    public static String parseToBurgerName(String setName) {
+        return setName.replace(Category.SET.getName(),EMPTY.getDelimiter());
     }
 
     // 결과값 예시: [치킨버거,7000,15,"치킨으로 만든 햄버거",햄버거]
@@ -85,7 +90,7 @@ public class Parser {
             String menuName = orderItems[0];
             long quantity = parseToLong(orderItems[1]);
             OrderCreateDto orderCreateDto = new OrderCreateDto(menuName, quantity);
-            orderList.add(orderCreateDto.to());
+            orderList.add(orderCreateDto.to()); // TODO: to로 변환 하지 말고 Dto 자체를 넘긴다
             return;
         }
         throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());

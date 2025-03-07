@@ -1,7 +1,9 @@
 package order.domain;
 
 import java.util.List;
+import menu.domain.Category;
 import menu.domain.Menu;
+import menu.domain.Set;
 import menu.response.MenuErrorMessage;
 
 public class Order {
@@ -22,18 +24,13 @@ public class Order {
         return quantity;
     }
 
-    public Menu validateOrderedMenu(List<Menu> menuList) {
-        Menu menu = findByMenu(this.name, menuList);
+    public Menu validateOrderedMenu() {
+        Menu menu = Menu.findByMenu(this.name);
         validateQuantity(menu);
+        if (menu.getCategory().equals(Category.SET.getName())) {
+            validateSet();
+        }
         return menu;
-    }
-
-    private Menu findByMenu(String name, List<Menu> menuList) {
-        return menuList.stream()
-            .filter(menu -> menu.getName().equals(name)).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(
-                String.format(MenuErrorMessage.NOT_EXIST_MENU.getMessage(), name)
-            ));
     }
 
     private void validateQuantity(Menu menu) {
@@ -42,9 +39,16 @@ public class Order {
             throw new IllegalArgumentException(
                 String.format(MenuErrorMessage.INVALID_BUY.getMessage(), menu.getName()));
         }
-        if (menu.calculateQuantity(this.quantity) < minQuantity ) {
+        if (menu.calculateQuantity(this.quantity) < minQuantity) {
             throw new IllegalArgumentException(MenuErrorMessage.INVALID_QUANTITY.getMessage());
         }
+    }
+
+    public void validateSet() {
+        Menu drink = Menu.findByMenu(Set.DRINK.getName());
+        Menu potato = Menu.findByMenu(Set.POTATO.getName());
+        validateQuantity(drink);
+        validateQuantity(potato);
     }
 
 }
