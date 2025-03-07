@@ -12,7 +12,7 @@ import io.response.InputErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
 import order.dto.OrderCreateDto;
-import order.entity.Order;
+import order.domain.Order;
 import util.StringConverter;
 
 public class Parser {

@@ -1,25 +1,16 @@
 package admin.service;
 
 
-import admin.entity.Admin;
+import admin.domain.Admin;
 import admin.repository.AdminRepository;
 import admin.response.AdminErrorMessage;
-import java.util.List;
-import menu.entity.Menu;
-import menu.service.MenuService;
 
 public class AdminService {
 
-    private MenuService menuService;
     private AdminRepository adminRepository;
 
-    public AdminService(MenuService menuService) {
-        this.menuService = menuService;
+    public AdminService() {
         this.adminRepository = new AdminRepository();
-    }
-
-    public List<Menu> readMenuList() {
-        return menuService.readMenuList();
     }
 
     public void create(Admin admin) {

@@ -1,7 +1,6 @@
 package menu.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -9,7 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import file.service.FileService;
 import java.util.*;
-import menu.entity.Menu;
+import menu.domain.Menu;
 import menu.repository.MenuRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -2,10 +2,11 @@ package customer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
-import customer.entity.Customer;
+import customer.domain.Customer;
 import customer.repository.CustomerRepository;
 import customer.response.CustomerErrorMessage;
 import java.io.ByteArrayInputStream;
@@ -37,27 +38,23 @@ class CustomerServiceTest {
     @DisplayName("회원 생성 성공 테스트")
     void createCustomerSuccessTest() {
         // given
-        String input = "1, 10000";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
         Customer customer = new Customer(1L, 20000);
         given(customerRepository.isExistId(1L)).willReturn(false);
         // when
-        customerService.create();
+        customerService.create(customer);
         // then
-        // verify(customerRepository,times(1)).create(any(Customer.class));  // adminRepository.create() 호출 확인
+//         verify(customerRepository,times(1)).create(any(Customer.class));  // adminRepository.create() 호출 확인
     }
     // FIXME: String input = "1"; 과 long id = 1L 값이 달라서 오류 발생
     @Test
     @DisplayName("회원 로그인 성공 테스트")
     void loginCustomerSuccessTest() {
         // given
-        String input = "1";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
         long id = 1L;
         Customer customer = new Customer(id, 10000);
         given(customerRepository.findByCustomer(id)).willReturn(Optional.of(customer));
         // when
-        Customer result = customerService.login();
+        Customer result = customerService.login(id);
         // then
         assertThat(result).isNotNull().isEqualTo(customer);
     }
@@ -71,7 +68,7 @@ class CustomerServiceTest {
         long id = 1L;
         given(customerRepository.findByCustomer(id)).willReturn(Optional.empty());
         // when & then
-        assertThatThrownBy(() -> customerService.login())
+        assertThatThrownBy(() -> customerService.login(id))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage(String.format(CustomerErrorMessage.NOT_EXIST_CUSTOMER.getMessage(), id));
     }

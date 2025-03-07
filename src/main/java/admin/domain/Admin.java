@@ -1,4 +1,4 @@
-package admin.entity;
+package admin.domain;
 
 public class Admin {
 

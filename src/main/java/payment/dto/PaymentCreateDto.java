@@ -1,6 +1,6 @@
 package payment.dto;
 
-import payment.entity.Payment;
+import payment.domain.Payment;
 
 public record PaymentCreateDto(String menuName,long menuPrice, long orderQuantity) {
 

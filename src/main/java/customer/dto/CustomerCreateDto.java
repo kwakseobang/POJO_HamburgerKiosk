@@ -1,6 +1,6 @@
 package customer.dto;
 
-import customer.entity.Customer;
+import customer.domain.Customer;
 
 public record CustomerCreateDto(long id, long amount) {
 

@@ -1,4 +1,4 @@
-package menu.entity;
+package menu.domain;
 
 public class Menu {
 

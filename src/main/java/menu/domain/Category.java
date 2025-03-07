@@ -1,4 +1,4 @@
-package menu.entity;
+package menu.domain;
 
 import menu.response.MenuErrorMessage;
 

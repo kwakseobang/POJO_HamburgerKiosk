@@ -3,7 +3,7 @@ package menu.service;
 import file.service.FileService;
 import java.util.List;
 import menu.dto.MenuCreateDto;
-import menu.entity.Menu;
+import menu.domain.Menu;
 import menu.repository.MenuRepository;
 import parser.Parser;
 

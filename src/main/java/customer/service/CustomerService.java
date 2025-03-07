@@ -1,13 +1,13 @@
 package customer.service;
 
-import admin.entity.Admin;
-import customer.entity.Customer;
+import admin.domain.Admin;
+import customer.domain.Customer;
 import customer.repository.CustomerRepository;
 import customer.response.CustomerErrorMessage;
-import io.entity.Input;
-import io.entity.OutPut;
+import io.domain.Input;
+import io.domain.OutPut;
 import java.util.List;
-import menu.entity.Menu;
+import menu.domain.Menu;
 import order.service.OrderService;
 
 public class CustomerService {

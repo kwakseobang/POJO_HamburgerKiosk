@@ -2,7 +2,7 @@ package menu.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import menu.entity.Menu;
+import menu.domain.Menu;
 
 public class MenuRepository {
 

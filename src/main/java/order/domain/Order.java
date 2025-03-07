@@ -1,7 +1,7 @@
-package order.entity;
+package order.domain;
 
 import java.util.List;
-import menu.entity.Menu;
+import menu.domain.Menu;
 import menu.response.MenuErrorMessage;
 
 public class Order {
@@ -23,9 +23,9 @@ public class Order {
     }
 
     public Menu validateOrderedMenu(List<Menu> menuList) {
-            Menu menu = findByMenu(this.name, menuList);
-            validateQuantity(menu);
-            return menu;
+        Menu menu = findByMenu(this.name, menuList);
+        validateQuantity(menu);
+        return menu;
     }
 
     private Menu findByMenu(String name, List<Menu> menuList) {

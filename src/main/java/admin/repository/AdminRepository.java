@@ -1,6 +1,6 @@
 package admin.repository;
 
-import admin.entity.Admin;
+import admin.domain.Admin;
 import admin.response.AdminErrorMessage;
 import java.util.HashMap;
 import java.util.Optional;

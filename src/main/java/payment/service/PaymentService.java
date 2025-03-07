@@ -1,13 +1,13 @@
 package payment.service;
 
-import admin.entity.Admin;
-import customer.entity.Customer;
+import admin.domain.Admin;
+import customer.domain.Customer;
 import java.util.ArrayList;
 import java.util.List;
-import menu.entity.Menu;
-import order.entity.Order;
+import menu.domain.Menu;
+import order.domain.Order;
 import payment.dto.PaymentCreateDto;
-import payment.entity.Payment;
+import payment.domain.Payment;
 import receipt.service.ReceiptService;
 
 public class PaymentService {
@@ -18,7 +18,12 @@ public class PaymentService {
         this.receiptService = new ReceiptService();
     }
 
-    public void pay(List<Order> orders, List<Menu> orderByMenu, Admin admin, Customer customer) {
+    public void pay(
+        List<Order> orders,
+        List<Menu> orderByMenu,
+        Admin admin,
+        Customer customer
+    ) {
         List<Payment> paymentList = createPaymentList(orders, orderByMenu, admin, customer);
         long totalPrice = calculateTotalPrice(paymentList);
         long totalQuantity = calculateTotalQuantity(paymentList);
@@ -43,7 +48,12 @@ public class PaymentService {
         return paymentList;
     }
 
-    private void update(Menu menu, Admin admin, Customer customer, Payment payment) {
+    private void update(
+        Menu menu,
+        Admin admin,
+        Customer customer,
+        Payment payment
+    ) {
         customer.updateAmount(payment.getPrice());
         admin.updateAmount(payment.getPrice());
         menu.updateQuantity(payment.getQuantity());

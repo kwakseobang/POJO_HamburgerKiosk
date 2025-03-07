@@ -1,12 +1,12 @@
-package io.entity;
+package io.domain;
 
-import admin.entity.Admin;
-import customer.entity.Customer;
+import admin.domain.Admin;
+import customer.domain.Customer;
 import io.response.OutPutMessage;
 import java.util.List;
-import menu.entity.Menu;
-import menu.entity.MenuStatus;
-import payment.entity.Payment;
+import menu.domain.Menu;
+import menu.domain.MenuStatus;
+import payment.domain.Payment;
 
 public class OutPut {
 

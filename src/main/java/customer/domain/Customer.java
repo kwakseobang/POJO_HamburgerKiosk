@@ -1,4 +1,4 @@
-package customer.entity;
+package customer.domain;
 
 import customer.response.CustomerErrorMessage;
 

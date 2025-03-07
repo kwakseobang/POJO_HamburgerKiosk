@@ -1,6 +1,6 @@
 package admin.dto;
 
-import admin.entity.Admin;
+import admin.domain.Admin;
 
 public record AdminCreateDto(String name, long amount) {
 

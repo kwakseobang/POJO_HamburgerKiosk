@@ -1,7 +1,7 @@
 package menu.dto;
 
-import menu.entity.Category;
-import menu.entity.Menu;
+import menu.domain.Category;
+import menu.domain.Menu;
 
 public record MenuCreateDto(
     String name,

@@ -1,4 +1,4 @@
-package payment.entity;
+package payment.domain;
 
 public class Payment {
 
