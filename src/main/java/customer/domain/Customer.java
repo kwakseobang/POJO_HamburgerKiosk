@@ -3,6 +3,7 @@ package customer.domain;
 import customer.response.CustomerErrorMessage;
 
 public class Customer {
+
     private final long customerId;
     private long amount;
 
