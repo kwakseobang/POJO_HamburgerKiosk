@@ -2,17 +2,16 @@ package kiosk;
 
 import static kiosk.Option.getOption;
 
-import admin.entity.Admin;
+import admin.domain.Admin;
 import admin.service.AdminService;
-import customer.entity.Customer;
+import customer.domain.Customer;
 import customer.service.CustomerService;
 import file.service.FileService;
-import io.entity.Input;
-import io.entity.OutPut;
+import io.domain.Input;
+import io.domain.OutPut;
 import io.response.InputErrorMessage;
 import io.response.OutPutMessage;
-import java.util.List;
-import menu.entity.Menu;
+import menu.domain.MenuList;
 import menu.service.MenuService;
 
 public class KioskService {
@@ -26,7 +25,7 @@ public class KioskService {
     public KioskService() {
         this.fileService = new FileService();
         this.menuService = new MenuService(fileService);
-        this.adminService = new AdminService(menuService);
+        this.adminService = new AdminService();
         this.customerService = new CustomerService();
     }
 
@@ -49,7 +48,7 @@ public class KioskService {
     private void selectOption(int optionNum) {
         Option option = getOption(optionNum);
         switch (option) {
-            case EXIT -> exit();  // TODO : 열거형으로 빼거나 반복문
+            case EXIT -> exit();
             case ADMIN_CREATE -> createAdmin();
             case ADMIN_LOGIN -> loginAdmin();
             case CUSTOMER_CREATE -> createCustomer();
@@ -78,14 +77,14 @@ public class KioskService {
         Admin admin = adminService.findLoggedInAdminByName(adminName);
         Customer customer = customerService.login(Input.inputUniqueNumber());
         processOrder(admin, customer);
-        fileService.saveMenusToFile(adminService.readMenuList());
+        fileService.saveMenusToFile(menuService.readMenuList());
     }
 
     private void processOrder(Admin admin, Customer customer) {
         while (true) {
             try {
                 OutPut.displayIntro(customer.getCustomerId(), adminName);
-                List<Menu> menuList = adminService.readMenuList();
+                MenuList menuList = menuService.readMenuList();
                 customerService.order(menuList, admin, customer);
                 if (!isExtraOrder()) {
                     return;

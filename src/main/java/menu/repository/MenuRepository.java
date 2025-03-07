@@ -1,22 +1,21 @@
 package menu.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import menu.entity.Menu;
+import menu.domain.MenuList;
+import menu.dto.MenuCreateDto;
 
 public class MenuRepository {
 
-    private List<Menu> menuList;
+    private MenuList menuList;
 
     public MenuRepository() {
-        this.menuList = new ArrayList<>();
+        menuList = new MenuList();
     }
 
-    public void save(Menu menu) {
-        menuList.add(menu);
+    public void save(MenuCreateDto menuCreateDto) {
+        menuList.add(menuCreateDto.to());
     }
 
-    public List<Menu> getMenuList() {
+    public MenuList getMenuList() {
         return menuList;
     }
 

@@ -1,6 +1,6 @@
 package customer.repository;
 
-import customer.entity.Customer;
+import customer.domain.Customer;
 import java.util.HashMap;
 import java.util.Optional;
 

@@ -1,14 +1,14 @@
-package io.entity;
+package io.domain;
 
 import admin.dto.AdminCreateDto;
-import admin.entity.Admin;
+import admin.domain.Admin;
 import customer.dto.CustomerCreateDto;
-import customer.entity.Customer;
+import customer.domain.Customer;
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.List;
 import java.util.Scanner;
-import order.entity.Order;
+import order.domain.Order;
 import parser.Parser;
 
 public class Input {

@@ -1,10 +1,12 @@
-package menu.entity;
+package menu.domain;
 
 public class Menu {
 
+    private static final MenuList menuList = new MenuList();
+
     private String name;
     private long price;
-    private String quantity;
+    private Long quantity;
     private String description;
     private Category category;
     private boolean isSoldOut;
@@ -12,7 +14,7 @@ public class Menu {
     public Menu(
         String name,
         long price,
-        String quantity,
+        Long quantity,
         String description,
         Category category
     ) {
@@ -22,6 +24,7 @@ public class Menu {
         this.description = description;
         this.category = category;
         this.isSoldOut = checkedSoldOut(quantity); // 초기에 품절 됐을 경우 가 있기에 체크
+        menuList.add(this);
     }
 
     public String getName() {
@@ -32,7 +35,7 @@ public class Menu {
         return price;
     }
 
-    public String getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
@@ -50,28 +53,26 @@ public class Menu {
 
     public void updateSoldOutStatus() {
         this.isSoldOut = true;
-        this.quantity = MenuStatus.SOLD_OUT.name();
     }
 
+    public static Menu findByMenu(String name) {
+        return menuList.findByMenu(name);
+    }
 
     public void updateQuantity(long newQuantity) {
-        long quantity = calculateQuantity(newQuantity);
+        long quantity = calculateQuantity(newQuantity); // 함수가 있는 김에 사용함.
         if (quantity == 0) {
             updateSoldOutStatus();
-            return;
         }
-        this.quantity = String.valueOf(quantity);
+        this.quantity = quantity;
     }
 
     public long calculateQuantity(long newQuantity) {
-        return Long.parseLong(this.quantity) - newQuantity;
+        return this.quantity - newQuantity;
     }
 
-    private boolean checkedSoldOut(String quantity) {
-        if (quantity.equals(MenuStatus.SOLD_OUT.name())) {
-            return true;
-        }
-        return false;
+    private boolean checkedSoldOut(Long quantity) {
+        return quantity == 0;
     }
 
 }

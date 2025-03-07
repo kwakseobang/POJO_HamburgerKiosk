@@ -1,8 +1,9 @@
-package menu.entity;
+package menu.domain;
 
 import menu.response.MenuErrorMessage;
 
 public enum Category {
+
     SET("세트"),
     HAMBURGER("햄버거"),
     SIDE("사이드"),
@@ -21,7 +22,7 @@ public enum Category {
 
     public static Category fromString(String value) {
         for (Category category : Category.values()) {
-            if (category.name.equals(value)) {
+            if (category.getName().equals(value)) {
                 return category;
             }
         }

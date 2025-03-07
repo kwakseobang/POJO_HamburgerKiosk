@@ -1,19 +1,20 @@
 package receipt.service;
 
-import admin.entity.Admin;
-import customer.entity.Customer;
-import io.entity.OutPut;
+import admin.domain.Admin;
+import customer.domain.Customer;
+import io.domain.OutPut;
 import java.util.List;
-import payment.entity.Payment;
+import payment.domain.Payment;
 
 public class ReceiptService {
 
     public void displayReceipt(
-        Customer customer,
-        Admin admin,
         List<Payment> paymentList,
-        long totalPrice,
-        long totalQuantity
+        Admin admin,
+        Customer customer,
+        long totalQuantity,
+        long totalPrice
+
     ) {
         OutPut.displayReceiptHeader();
         for (Payment payment : paymentList) {

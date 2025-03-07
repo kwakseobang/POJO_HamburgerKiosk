@@ -1,11 +1,11 @@
 package order.service;
 
-import admin.entity.Admin;
-import customer.entity.Customer;
+import admin.domain.Admin;
+import customer.domain.Customer;
 import java.util.ArrayList;
 import java.util.List;
-import menu.entity.Menu;
-import order.entity.Order;
+import menu.domain.Menu;
+import order.domain.Order;
 import payment.service.PaymentService;
 
 public class OrderService {
@@ -16,12 +16,12 @@ public class OrderService {
         this.paymentService = new PaymentService();
     }
 
-    public void order(List<Order> orders, List<Menu> menuList, Admin admin, Customer customer) {
+    public void order(List<Order> orders, Admin admin, Customer customer) {
         List<Menu> orderedMenuList = new ArrayList<>();
         for (Order order : orders) {
-            orderedMenuList.add(order.validateOrderedMenu(menuList));
+            orderedMenuList.add(order.validateOrderedMenu());
         }
-
+        // TODO: 결제를 안할 수도 이는 것이다. 값만 넘겨줘야 할까.
         paymentService.pay(orders, orderedMenuList, admin, customer);
     }
 
