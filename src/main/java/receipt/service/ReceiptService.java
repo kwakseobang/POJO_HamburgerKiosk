@@ -9,11 +9,12 @@ import payment.domain.Payment;
 public class ReceiptService {
 
     public void displayReceipt(
-        Customer customer,
-        Admin admin,
         List<Payment> paymentList,
-        long totalPrice,
-        long totalQuantity
+        Admin admin,
+        Customer customer,
+        long totalQuantity,
+        long totalPrice
+
     ) {
         OutPut.displayReceiptHeader();
         for (Payment payment : paymentList) {

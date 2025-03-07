@@ -48,8 +48,8 @@ public class OutPut {
     public static void displayReceiptFooter(
         Admin admin,
         Customer customer,
-        long totalPrice,
-        long totalQuantity
+        long totalQuantity,
+        long totalPrice
     ) {
         System.out.printf(
             OutPutMessage.DISPLAY_RECEIPT_FOOTER.getMessage(),
