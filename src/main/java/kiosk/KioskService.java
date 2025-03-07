@@ -62,7 +62,7 @@ public class KioskService {
     }
 
     private void createAdmin() {
-        adminService.create(Input.inputAdminInfo());
+        adminService.create(Input.inputAdminInfo().to());
     }
 
     private void loginAdmin() {
@@ -70,7 +70,7 @@ public class KioskService {
     }
 
     private void createCustomer() {
-        customerService.create(Input.inputCustomerInfo());
+        customerService.create(Input.inputCustomerInfo().to());
     }
 
     private void loginCustomer() {

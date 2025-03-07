@@ -53,11 +53,11 @@ public class Parser {
         return new CustomerCreateDto(id, amount);
     }
 
-    public static List<Order> parseToOrders(String orders) {
+    public static List<OrderCreateDto> parseToOrders(String orders) {
         validateBracket(orders);
 
         String[] parsedOrder = StringConverter.toStringArray(orders);
-        List<Order> orderList = new ArrayList<>();
+        List<OrderCreateDto> orderList = new ArrayList<>();
 
         for (String order : parsedOrder) {
             String[] orderItems = parseToOrder(order.trim());
@@ -85,12 +85,12 @@ public class Parser {
         return order.split(HYPHEN.getDelimiter());
     }
 
-    private static void appendOrder(String[] orderItems, List<Order> orderList) {
+    private static void appendOrder(String[] orderItems, List<OrderCreateDto> orderList) {
         if (orderItems.length == ORDER_ITEMS_COUNT) {
             String menuName = orderItems[0];
             long quantity = parseToLong(orderItems[1]);
             OrderCreateDto orderCreateDto = new OrderCreateDto(menuName, quantity);
-            orderList.add(orderCreateDto.to()); // TODO: to로 변환 하지 말고 Dto 자체를 넘긴다
+            orderList.add(orderCreateDto);
             return;
         }
         throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());

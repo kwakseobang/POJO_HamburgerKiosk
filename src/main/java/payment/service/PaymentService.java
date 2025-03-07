@@ -8,9 +8,10 @@ import menu.domain.Category;
 import menu.domain.Menu;
 import menu.domain.Set;
 import order.domain.Order;
+import order.dto.OrderCreateDto;
 import parser.Parser;
-import payment.dto.PaymentCreateDto;
 import payment.domain.Payment;
+import payment.dto.PaymentCreateDto;
 import receipt.service.ReceiptService;
 
 public class PaymentService {
@@ -22,7 +23,7 @@ public class PaymentService {
     }
 
     public void pay(
-        List<Order> orders,
+        List<OrderCreateDto> orders,
         List<Menu> orderByMenu,
         Admin admin,
         Customer customer
@@ -35,7 +36,7 @@ public class PaymentService {
     }
 
     private List<Payment> createPaymentList(
-        List<Order> orders,
+        List<OrderCreateDto> orders,
         List<Menu> orderByMenu,
         Admin admin,
         Customer customer
@@ -43,7 +44,7 @@ public class PaymentService {
         List<Payment> paymentList = new ArrayList<>();
         for (int i = 0; i < orderByMenu.size(); i++) {
             Menu menu = orderByMenu.get(i);
-            Order order = orders.get(i);
+            Order order = orders.get(i).to();
 
             Payment payment = createPayment(menu.getName(), menu.getPrice(), order.getQuantity());
 

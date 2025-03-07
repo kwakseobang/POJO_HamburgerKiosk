@@ -1,14 +1,12 @@
 package io.domain;
 
 import admin.dto.AdminCreateDto;
-import admin.domain.Admin;
 import customer.dto.CustomerCreateDto;
-import customer.domain.Customer;
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.List;
 import java.util.Scanner;
-import order.domain.Order;
+import order.dto.OrderCreateDto;
 import parser.Parser;
 
 public class Input {
@@ -18,21 +16,19 @@ public class Input {
     private Input() {
     }
 
-    public static Admin inputAdminInfo() {
+    public static AdminCreateDto inputAdminInfo() {
         String input = input(InputMessage.CREATE_ADMIN.getMessage());
-        AdminCreateDto adminCreateDto = Parser.parseToAdminInfo(input);
-        return adminCreateDto.to();
+        return Parser.parseToAdminInfo(input);
     }
 
     public static String inputAdminName() {
         return input(InputMessage.LOGIN_ADMIN.getMessage());
     }
 
-    public static Customer inputCustomerInfo() {
+    public static CustomerCreateDto inputCustomerInfo() {
         String input = input(
             InputMessage.CREATE_CUSTOMER.getMessage());
-        CustomerCreateDto customerCreateDto = Parser.parseToCustomerInfo(input);
-        return customerCreateDto.to();
+        return Parser.parseToCustomerInfo(input);
     }
 
     public static long inputUniqueNumber() {
@@ -48,7 +44,7 @@ public class Input {
         return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
     }
 
-    public static List<Order> inputMenu() {
+    public static List<OrderCreateDto> inputMenu() {
         String orders = input(InputMessage.ORDER_MENU.getMessage());
         return Parser.parseToOrders(orders);
     }
