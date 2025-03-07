@@ -17,7 +17,7 @@ public class OutPut {
         for (Menu menu : menuList) {
             System.out.printf(OutPutMessage.DISPLAY_MENU.getMessage(),
                 menu.getName(),
-                menu.getPrice() + MenuStatus.WON.name(),
+                menu.getPrice() + MenuStatus.WON.getName(),
                 isSoldOut(menu.getQuantity()),
                 menu.getDescription(),
                 menu.getCategory()
@@ -63,10 +63,10 @@ public class OutPut {
     }
 
     private static String isSoldOut(String menuQuantity) {
-        if (menuQuantity.equals(MenuStatus.SOLD_OUT.name())) {
+        if (menuQuantity.equals(MenuStatus.SOLD_OUT.getName())) {
             return menuQuantity;
         }
-        return menuQuantity + MenuStatus.COUNT.name();
+        return menuQuantity + MenuStatus.COUNT.getName();
     }
 
 }
