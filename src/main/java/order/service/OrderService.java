@@ -16,12 +16,12 @@ public class OrderService {
         this.paymentService = new PaymentService();
     }
 
-    public void order(List<Order> orders, List<Menu> menuList, Admin admin, Customer customer) {
-//       유효성 검증 된 주문이 들어온다.
+    public void order(List<Order> orders, Admin admin, Customer customer) {
         List<Menu> orderedMenuList = new ArrayList<>();
         for (Order order : orders) {
-            orderedMenuList.add(order.validateOrderedMenu(menuList));
+            orderedMenuList.add(order.validateOrderedMenu());
         }
+        // TODO: 결제를 안할 수도 이는 것이다. 값만 넘겨줘야 할까.
         paymentService.pay(orders, orderedMenuList, admin, customer);
     }
 

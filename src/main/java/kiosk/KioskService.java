@@ -11,8 +11,7 @@ import io.domain.Input;
 import io.domain.OutPut;
 import io.response.InputErrorMessage;
 import io.response.OutPutMessage;
-import java.util.List;
-import menu.domain.Menu;
+import menu.domain.MenuList;
 import menu.service.MenuService;
 
 public class KioskService {
@@ -49,7 +48,7 @@ public class KioskService {
     private void selectOption(int optionNum) {
         Option option = getOption(optionNum);
         switch (option) {
-            case EXIT -> exit();  // TODO : 열거형으로 빼거나 반복문
+            case EXIT -> exit();
             case ADMIN_CREATE -> createAdmin();
             case ADMIN_LOGIN -> loginAdmin();
             case CUSTOMER_CREATE -> createCustomer();
@@ -85,7 +84,7 @@ public class KioskService {
         while (true) {
             try {
                 OutPut.displayIntro(customer.getCustomerId(), adminName);
-                List<Menu> menuList = menuService.readMenuList();
+                MenuList menuList = menuService.readMenuList();
                 customerService.order(menuList, admin, customer);
                 if (!isExtraOrder()) {
                     return;

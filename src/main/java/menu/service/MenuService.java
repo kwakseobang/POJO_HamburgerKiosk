@@ -2,8 +2,8 @@ package menu.service;
 
 import file.service.FileService;
 import java.util.List;
+import menu.domain.MenuList;
 import menu.dto.MenuCreateDto;
-import menu.domain.Menu;
 import menu.repository.MenuRepository;
 import parser.Parser;
 
@@ -22,11 +22,11 @@ public class MenuService {
         for (String line : loadedFile) {
             String[] parsedMenuItem = Parser.parseToMenu(line);
             MenuCreateDto menuCreateDto = new MenuCreateDto(parsedMenuItem);
-            menuRepository.save(menuCreateDto.to());
+            menuRepository.save(menuCreateDto);
         }
     }
 
-    public List<Menu> readMenuList() {
+    public MenuList readMenuList() {
         return menuRepository.getMenuList();
     }
 

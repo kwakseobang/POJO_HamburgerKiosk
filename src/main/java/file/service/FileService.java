@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import menu.domain.Menu;
+import menu.domain.MenuList;
 
 public class FileService {
 
@@ -31,11 +32,11 @@ public class FileService {
         }
     }
 
-    public void saveMenusToFile(List<Menu> menuList) {
-
+    public void saveMenusToFile(MenuList menuList) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));
-            for (Menu menu : menuList) {
+            List<Menu> menus = menuList.getMenuList();
+            for (Menu menu : menus) {
                 String line = menuFormatting(menu);
                 writer.write(line);
                 writer.newLine();
