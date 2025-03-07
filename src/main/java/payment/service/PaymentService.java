@@ -8,10 +8,8 @@ import menu.domain.Category;
 import menu.domain.Menu;
 import menu.domain.Set;
 import order.domain.Order;
-import order.dto.OrderCreateDto;
 import parser.Parser;
 import payment.domain.Payment;
-import payment.dto.PaymentCreateDto;
 import receipt.service.ReceiptService;
 
 public class PaymentService {
@@ -23,12 +21,11 @@ public class PaymentService {
     }
 
     public void pay(
-        List<OrderCreateDto> orders,
-        List<Menu> orderByMenu,
+        List<Order> orders,
         Admin admin,
         Customer customer
     ) {
-        List<Payment> paymentList = createPaymentList(orders, orderByMenu, admin,
+        List<Payment> paymentList = createPaymentList(orders, admin,
             customer);
         long totalPrice = calculateTotalPrice(paymentList);
         long totalQuantity = calculateTotalQuantity(paymentList);
@@ -36,17 +33,20 @@ public class PaymentService {
     }
 
     private List<Payment> createPaymentList(
-        List<OrderCreateDto> orders,
-        List<Menu> orderByMenu,
+        List<Order> orders,
         Admin admin,
         Customer customer
     ) {
         List<Payment> paymentList = new ArrayList<>();
-        for (int i = 0; i < orderByMenu.size(); i++) {
-            Menu menu = orderByMenu.get(i);
-            Order order = orders.get(i).to();
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
+            Menu menu = order.getMenu();
 
-            Payment payment = createPayment(menu.getName(), menu.getPrice(), order.getQuantity());
+            Payment payment = Payment.createPayment(
+                menu.getName(),
+                menu.getPrice(),
+                order.getQuantity()
+            );
 
             updateAmount(admin, customer, payment);
             updateMenuQuantity(menu, payment.getQuantity());
@@ -81,15 +81,6 @@ public class PaymentService {
 
     private long calculateTotalQuantity(List<Payment> payments) {
         return payments.stream().mapToLong(Payment::getQuantity).sum();
-    }
-
-    private Payment createPayment(String menuName, long menuPrice, long orderQuantity) {
-        PaymentCreateDto paymentCreateDto = new PaymentCreateDto(
-            menuName,
-            menuPrice,
-            orderQuantity
-        );
-        return paymentCreateDto.to();
     }
 
     private void updateSetOrBurger(String menuName, long quantity, String category) {

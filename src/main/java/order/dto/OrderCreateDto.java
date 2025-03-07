@@ -5,7 +5,7 @@ import order.domain.Order;
 public record OrderCreateDto(String menuName, long quantity) {
 
     public Order to() {
-        return  new Order(menuName,quantity);
+        return Order.createOrder(menuName, quantity);
     }
 
 }
