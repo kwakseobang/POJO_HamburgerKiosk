@@ -9,7 +9,7 @@ public enum Option {
     CUSTOMER_CREATE(3),
     CUSTOMER_LOGIN(4);
 
-    int num;
+    final int num;
 
     Option(int num) {
         this.num = num;
