@@ -4,10 +4,12 @@ package admin.service;
 import admin.domain.Admin;
 import admin.repository.AdminRepository;
 import admin.response.AdminErrorMessage;
+import java.util.HashMap;
 
 public class AdminService {
 
-    private AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
+    private final HashMap<String, Admin> loggedInAdmin = new HashMap<>();
 
     public AdminService() {
         this.adminRepository = new AdminRepository();
@@ -19,12 +21,15 @@ public class AdminService {
     }
 
     public Admin findLoggedInAdminByName(String adminName) {
-        return adminRepository.findLoggedInAdminByName(adminName);
+        if (loggedInAdmin.containsKey(adminName)) {
+            return loggedInAdmin.get(adminName);
+        }
+        throw new IllegalArgumentException(AdminErrorMessage.UNAUTHORIZED_ADMIN.getMessage());
     }
 
     public String login(String name) {
         Admin admin = findAdminByName(name);
-        adminRepository.registerLoggedInAdmin(admin);
+        loggedInAdmin.put(name, admin);
         return admin.getId();
     }
 
