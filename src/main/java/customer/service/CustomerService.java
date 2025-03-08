@@ -20,15 +20,15 @@ public class CustomerService {
     }
 
     public void create(Customer customer) {
-        if (customerRepository.isExistId(customer.getCustomerId())) {
+        if (customerRepository.isExistId(customer.getId())) {
             throw new IllegalArgumentException(
                 String.format(CustomerErrorMessage.DUPLICATION_CUSTOMER.getMessage(),
-                    customer.getCustomerId()));
+                    customer.getId()));
         }
         customerRepository.create(customer);
     }
 
-    public Customer login(long id) {
+    public Customer login(String id) {
         return customerRepository.findByCustomer(id)
             .orElseThrow(() -> new IllegalArgumentException(
                 String.format(CustomerErrorMessage.NOT_EXIST_CUSTOMER.getMessage(), id)

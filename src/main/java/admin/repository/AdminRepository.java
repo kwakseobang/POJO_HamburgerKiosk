@@ -11,7 +11,7 @@ public class AdminRepository {
     private Admin loggedInAdmin;
 
     public void create(Admin admin) {
-        adminInfo.put(admin.getName(), admin);
+        adminInfo.put(admin.getId(), admin);
     }
 
     public boolean isExistByName(String name) {
@@ -23,7 +23,7 @@ public class AdminRepository {
     }
 
     public Admin findLoggedInAdminByName(String name) {
-        String loggedInAdminName = loggedInAdmin.getName();
+        String loggedInAdminName = loggedInAdmin.getId();
         if (loggedInAdminName.equals(name)) {
             return loggedInAdmin;
         }

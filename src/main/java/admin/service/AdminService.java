@@ -14,7 +14,7 @@ public class AdminService {
     }
 
     public void create(Admin admin) {
-        validateDuplicateAdminName(admin.getName());
+        validateDuplicateAdminName(admin.getId());
         adminRepository.create(admin);
     }
 
@@ -25,7 +25,7 @@ public class AdminService {
     public String login(String name) {
         Admin admin = findAdminByName(name);
         adminRepository.registerLoggedInAdmin(admin);
-        return admin.getName();
+        return admin.getId();
     }
 
     private Admin findAdminByName(String name) {

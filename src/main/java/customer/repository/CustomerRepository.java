@@ -6,17 +6,17 @@ import java.util.Optional;
 
 public class CustomerRepository {
 
-    private static final HashMap<Long, Customer> customerInfo = new HashMap<>();
+    private static final HashMap<String, Customer> customerInfo = new HashMap<>();
 
     public void create(Customer customer) {
-        customerInfo.put(customer.getCustomerId(), customer);
+        customerInfo.put(customer.getId(), customer);
     }
 
-    public boolean isExistId(Long customerId) {
+    public boolean isExistId(String customerId) {
         return customerInfo.containsKey(customerId);
     }
 
-    public Optional<Customer> findByCustomer(Long customerId) {
+    public Optional<Customer> findByCustomer(String customerId) {
         return Optional.ofNullable(customerInfo.get(customerId));
     }
 
