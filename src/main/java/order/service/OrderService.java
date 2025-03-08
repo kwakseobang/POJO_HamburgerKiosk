@@ -16,7 +16,6 @@ public class OrderService {
     }
 
     public void order(List<OrderCreateDto> orders, Admin admin, Customer customer) {
-
         List<Order> orderList = orders.stream()
             .map(OrderCreateDto::to)
             .toList();
@@ -24,6 +23,5 @@ public class OrderService {
         // TODO: 결제를 안할 수도 이는 것이다. 값만 넘겨줘야 할까.
         paymentService.pay(orderList, admin, customer);
     }
-
 
 }
