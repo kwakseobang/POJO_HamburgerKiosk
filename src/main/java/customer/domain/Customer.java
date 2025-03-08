@@ -1,25 +1,15 @@
 package customer.domain;
 
 import customer.response.CustomerErrorMessage;
+import user.User;
 
-public class Customer {
+public class Customer extends User {
 
-    private final long customerId;
-    private long amount;
-
-    public Customer(long customerId, long amount) {
-        this.customerId = customerId;
-        this.amount = amount;
+    public Customer(String customerId, long amount) {
+        super(customerId, amount);
     }
 
-    public long getCustomerId() {
-        return customerId;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
+    @Override
     public void updateAmount(long amount) {
         long newAmount = this.amount - amount;
         if (newAmount > 0) {

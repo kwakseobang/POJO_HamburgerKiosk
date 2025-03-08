@@ -1,13 +1,14 @@
 package io.domain;
 
-import admin.dto.AdminCreateDto;
-import customer.dto.CustomerCreateDto;
+import static io.domain.OutPut.displayMessage;
+
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.List;
 import java.util.Scanner;
 import order.dto.OrderCreateDto;
 import parser.Parser;
+import user.UserCreateDto;
 
 public class Input {
 
@@ -16,24 +17,16 @@ public class Input {
     private Input() {
     }
 
-    public static AdminCreateDto inputAdminInfo() {
-        String input = input(InputMessage.CREATE_ADMIN.getMessage());
-        return Parser.parseToAdminInfo(input);
+    public static UserCreateDto inputUserInfo(InputMessage inputMessage) {
+           return Parser.parseToUserInfo(input(inputMessage.getMessage()));
     }
 
     public static String inputAdminName() {
         return input(InputMessage.LOGIN_ADMIN.getMessage());
     }
 
-    public static CustomerCreateDto inputCustomerInfo() {
-        String input = input(
-            InputMessage.CREATE_CUSTOMER.getMessage());
-        return Parser.parseToCustomerInfo(input);
-    }
-
-    public static long inputUniqueNumber() {
-        return Long.parseLong(
-            input(InputMessage.LOGIN_CUSTOMER.getMessage()));
+    public static String inputUniqueNumber() {
+        return input(InputMessage.LOGIN_CUSTOMER.getMessage());
     }
 
     public static int inputOption() {
@@ -54,10 +47,6 @@ public class Input {
         String input = sc.nextLine();
         validateInput(input);
         return input;
-    }
-
-    private static void displayMessage(String message) {
-        System.out.println(message);
     }
 
     private static void validateInput(String input) {

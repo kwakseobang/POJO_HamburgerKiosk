@@ -1,23 +1,14 @@
 package admin.domain;
 
-public class Admin {
+import user.User;
 
-    private final String name;
-    private long amount;
+public class Admin extends User {
 
-    public Admin(String name, long amount) {
-        this.name = name;
-        this.amount = amount;
+    public Admin(String id, long amount) {
+        super(id, amount);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
+    @Override
     public void updateAmount(long amount) {
         this.amount += amount;
     }

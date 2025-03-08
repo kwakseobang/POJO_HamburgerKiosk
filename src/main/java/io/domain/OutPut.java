@@ -13,6 +13,10 @@ public class OutPut {
     private OutPut() {
     }
 
+    public static void displayMessage(String message) {
+        System.out.println(message);
+    }
+
     public static void displayMenuList(List<Menu> menuList) {
         for (Menu menu : menuList) {
             System.out.printf(OutPutMessage.DISPLAY_MENU.getMessage(),
@@ -25,7 +29,7 @@ public class OutPut {
         }
     }
 
-    public static void displayIntro(long customerId, String adminName) {
+    public static void displayIntro(String customerId, String adminName) {
         System.out.printf(
             (OutPutMessage.DISPLAY_INTRO.getMessage()) + "%n",
             customerId, adminName
@@ -55,9 +59,9 @@ public class OutPut {
             OutPutMessage.DISPLAY_RECEIPT_FOOTER.getMessage(),
             totalQuantity,
             totalPrice,
-            admin.getName(),
+            admin.getId(),
             admin.getAmount(),
-            customer.getCustomerId(),
+            customer.getId(),
             customer.getAmount()
         );
     }
