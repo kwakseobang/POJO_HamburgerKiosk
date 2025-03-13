@@ -21,7 +21,7 @@ public class OrderService {
             .map(OrderItemDto::to)
             .toList();
 
-        // TODO: 결제를 안할 수도 이는 것이다. 값만 넘겨줘야 할까.
+        // TODO: 바로 결제 객체에게 메시지를 보내는 게 아닌 주문 정보 반환 후 Kiosk 에서 처리 예정.
         paymentService.pay(new OrderDto(orderList,admin, customer));
     }
 

@@ -68,12 +68,12 @@ public class Menu {
         return category.getName();
     }
 
-    public boolean isSoldOut() {
-        return isSoldOut;
-    }
-
     public static Menu findByMenu(String name) {
         return menuList.findByMenu(name);
+    }
+
+    private static boolean checkedSoldOut(Long quantity) {
+        return quantity == 0;
     }
 
     public void updateQuantity(long newQuantity) {
@@ -86,10 +86,6 @@ public class Menu {
 
     private long calculateQuantity(long newQuantity) {
         return this.quantity - newQuantity;
-    }
-
-    private static boolean checkedSoldOut(Long quantity) {
-        return quantity == 0;
     }
 
     private void updateSoldOutStatus() {
@@ -105,7 +101,7 @@ public class Menu {
     }
 
     private void validateQuantity(Menu menu, long orderedQuantity) {
-        if (menu.isSoldOut()) {
+        if (this.isSoldOut) {
             throw new IllegalArgumentException(
                 String.format(MenuErrorMessage.INVALID_BUY.getMessage(), this.name));
         }
@@ -141,8 +137,8 @@ public class Menu {
     }
 
     private void updateSide(long quantity) {
-        Menu potatoMenu = Menu.findByMenu(Set.POTATO.getName());
-        Menu drinkMenu = Menu.findByMenu(Set.DRINK.getName());
+        Menu potatoMenu = findByMenu(Set.POTATO.getName());
+        Menu drinkMenu = findByMenu(Set.DRINK.getName());
         potatoMenu.updateQuantity(quantity);
         drinkMenu.updateQuantity(quantity);
     }
@@ -150,8 +146,8 @@ public class Menu {
     private void updateBurger(Long quantity) {
         // 햄버거세트일 경우 버거 이름만 추출 후 반환. 햄버거일 경우 그대로 반환
         String burgerName = Parser.parseToBurgerName(this.name);
-        Menu burger = Menu.findByMenu(burgerName);
-        Menu burgerSet = Menu.findByMenu(burgerName + Category.SET.getName());
+        Menu burger = findByMenu(burgerName);
+        Menu burgerSet = findByMenu(burgerName + Category.SET.getName());
         burger.updateQuantity(quantity);
         burgerSet.updateQuantity(quantity);
     }
