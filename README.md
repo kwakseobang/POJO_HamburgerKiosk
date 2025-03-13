@@ -72,7 +72,8 @@
 13. 추가 구매 여부 구현
 
 ## 다이어그램
-![kiosk](https://github.com/user-attachments/assets/035878d8-16f0-4dcc-b2e5-e57d076b3296)
+![kiosk2차](https://github.com/user-attachments/assets/0e26512d-23a8-4f25-9eb5-fff3aefb62e2)
+
 
 
 ## 🤝 Git Convention
