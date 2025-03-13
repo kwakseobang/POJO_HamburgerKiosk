@@ -21,7 +21,7 @@ public class PaymentService {
     }
 
     public void pay(OrderDto orderDto) {
-        Order order = orderDto.to();
+        Order order = Order.createOrder(orderDto.orderItems());
         Admin admin = orderDto.admin();
         Customer customer = orderDto.customer();
         List<Payment> paymentList = createPaymentList(order, admin,
