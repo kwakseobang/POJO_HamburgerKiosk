@@ -68,10 +68,6 @@ public class Menu {
         return category.getName();
     }
 
-    public boolean isSoldOut() {
-        return isSoldOut;
-    }
-
     public static Menu findByMenu(String name) {
         return menuList.findByMenu(name);
     }
@@ -105,7 +101,7 @@ public class Menu {
     }
 
     private void validateQuantity(Menu menu, long orderedQuantity) {
-        if (menu.isSoldOut()) {
+        if (this.isSoldOut) {
             throw new IllegalArgumentException(
                 String.format(MenuErrorMessage.INVALID_BUY.getMessage(), this.name));
         }
