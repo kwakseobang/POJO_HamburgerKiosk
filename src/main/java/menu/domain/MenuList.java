@@ -6,7 +6,7 @@ import menu.response.MenuErrorMessage;
 
 public class MenuList {
 
-    private List<Menu> menuList;
+    private final List<Menu> menuList;
 
     public MenuList() {
         this.menuList = new ArrayList<>();
