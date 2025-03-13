@@ -6,14 +6,12 @@ import static parser.Delimiter.HYPHEN;
 import static parser.Delimiter.LEFT_BRACKET;
 import static parser.Delimiter.RIGHT_BRACKET;
 
-import admin.dto.AdminCreateDto;
-import customer.dto.CustomerCreateDto;
 import io.response.InputErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
 import menu.domain.Category;
-import order.domain.Order;
-import order.dto.OrderCreateDto;
+import order.dto.OrderItemDto;
+import user.UserCreateDto;
 import util.StringConverter;
 
 public class Parser {
@@ -24,7 +22,7 @@ public class Parser {
     }
 
     public static String parseToBurgerName(String setName) {
-        return setName.replace(Category.SET.getName(),EMPTY.getDelimiter());
+        return setName.replace(Category.SET.getName(), EMPTY.getDelimiter());
     }
 
     // 결과값 예시: [치킨버거,7000,15,"치킨으로 만든 햄버거",햄버거]
@@ -32,32 +30,20 @@ public class Parser {
         return StringConverter.toStringArray(menu);
     }
 
-    // TODO: parseToAdminInfo, parseToCustomerInfo 둘 다 유사하여 리팩토링 가능함.
-    public static AdminCreateDto parseToAdminInfo(String input) {
+    public static UserCreateDto parseToUserInfo(String input) {
         validateComma(input);
-        // ex) [치킨버거,1000]
         String[] parsedInput = StringConverter.toStringArray(input);
-        String name = parsedInput[0];
-        long amount = parseToLong(parsedInput[1].trim());  // 공백 제거 후 변환
+        String id = parsedInput[0];
+        long amount = parseToLong(parsedInput[1].trim());
 
-        return new AdminCreateDto(name, amount);
+        return new UserCreateDto(id, amount);
     }
 
-    public static CustomerCreateDto parseToCustomerInfo(String input) {
-        validateComma(input);
-
-        String[] paredInput = StringConverter.toStringArray(input);
-        long id = parseToLong(paredInput[0]);
-        long amount = parseToLong(paredInput[1].trim());
-
-        return new CustomerCreateDto(id, amount);
-    }
-
-    public static List<Order> parseToOrders(String orders) {
+    public static List<OrderItemDto> parseToOrders(String orders) {
         validateBracket(orders);
 
         String[] parsedOrder = StringConverter.toStringArray(orders);
-        List<Order> orderList = new ArrayList<>();
+        List<OrderItemDto> orderList = new ArrayList<>();
 
         for (String order : parsedOrder) {
             String[] orderItems = parseToOrder(order.trim());
@@ -85,12 +71,12 @@ public class Parser {
         return order.split(HYPHEN.getDelimiter());
     }
 
-    private static void appendOrder(String[] orderItems, List<Order> orderList) {
+    private static void appendOrder(String[] orderItems, List<OrderItemDto> orderList) {
         if (orderItems.length == ORDER_ITEMS_COUNT) {
             String menuName = orderItems[0];
             long quantity = parseToLong(orderItems[1]);
-            OrderCreateDto orderCreateDto = new OrderCreateDto(menuName, quantity);
-            orderList.add(orderCreateDto.to()); // TODO: to로 변환 하지 말고 Dto 자체를 넘긴다
+            OrderItemDto orderItemDto = new OrderItemDto(menuName, quantity);
+            orderList.add(orderItemDto);
             return;
         }
         throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());

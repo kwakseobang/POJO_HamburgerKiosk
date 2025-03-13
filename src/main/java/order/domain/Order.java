@@ -1,54 +1,47 @@
 package order.domain;
 
 import java.util.List;
-import menu.domain.Category;
-import menu.domain.Menu;
-import menu.domain.Set;
-import menu.response.MenuErrorMessage;
 
 public class Order {
 
-    private String name;
-    private long quantity;
+    private long totalPrice;
+    private long totalQuantity;
+    private final List<OrderItem> orderItems;
 
-    public Order(String name, long quantity) {
-        this.name = name;
-        this.quantity = quantity;
+    private Order(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+        calculateTotalPrice();
+        calculateTotalQuantity();
     }
 
-    public String getName() {
-        return name;
+    public static Order createOrder(List<OrderItem> orderItems) {
+       return new Order(orderItems);
     }
 
-    public long getQuantity() {
-        return quantity;
+    public long getTotalPrice() {
+        return totalPrice;
     }
 
-    public Menu validateOrderedMenu() {
-        Menu menu = Menu.findByMenu(this.name);
-        validateQuantity(menu);
-        if (menu.getCategory().equals(Category.SET.getName())) {
-            validateSet();
-        }
-        return menu;
+    public long getTotalQuantity() {
+        return totalQuantity;
     }
 
-    private void validateQuantity(Menu menu) {
-        int minQuantity = 0;
-        if (menu.isSoldOut()) {
-            throw new IllegalArgumentException(
-                String.format(MenuErrorMessage.INVALID_BUY.getMessage(), menu.getName()));
-        }
-        if (menu.calculateQuantity(this.quantity) < minQuantity) {
-            throw new IllegalArgumentException(MenuErrorMessage.INVALID_QUANTITY.getMessage());
-        }
+    public List<OrderItem> getOrderItem() {
+        return orderItems;
     }
 
-    public void validateSet() {
-        Menu drink = Menu.findByMenu(Set.DRINK.getName());
-        Menu potato = Menu.findByMenu(Set.POTATO.getName());
-        validateQuantity(drink);
-        validateQuantity(potato);
+    private void calculateTotalPrice() {
+        this.totalPrice = orderItems
+            .stream()
+            .mapToLong(item -> item.getPrice() * item.getQuantity())
+            .sum();
+    }
+
+    private void calculateTotalQuantity() {
+        this.totalQuantity = orderItems
+            .stream()
+            .mapToLong(OrderItem::getQuantity)
+            .sum();
     }
 
 }

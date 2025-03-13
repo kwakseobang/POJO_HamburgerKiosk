@@ -10,6 +10,7 @@ import file.service.FileService;
 import io.domain.Input;
 import io.domain.OutPut;
 import io.response.InputErrorMessage;
+import io.response.InputMessage;
 import io.response.OutPutMessage;
 import menu.domain.MenuList;
 import menu.service.MenuService;
@@ -30,7 +31,7 @@ public class KioskService {
     }
 
     public void start() {
-        fileLoad();
+        menuService.createMenuList();
         while (true) {
             try {
                 int optionNum = Input.inputOption();
@@ -39,10 +40,6 @@ public class KioskService {
                 System.out.println(e.getMessage());
             }
         }
-    }
-
-    private void fileLoad() {
-        menuService.createMenuList();
     }
 
     private void selectOption(int optionNum) {
@@ -62,7 +59,7 @@ public class KioskService {
     }
 
     private void createAdmin() {
-        adminService.create(Input.inputAdminInfo());
+        adminService.create(Input.inputUserInfo(InputMessage.CREATE_ADMIN).toAdmin());
     }
 
     private void loginAdmin() {
@@ -70,7 +67,7 @@ public class KioskService {
     }
 
     private void createCustomer() {
-        customerService.create(Input.inputCustomerInfo());
+        customerService.create(Input.inputUserInfo(InputMessage.CREATE_CUSTOMER).toCustomer());
     }
 
     private void loginCustomer() {
@@ -83,9 +80,10 @@ public class KioskService {
     private void processOrder(Admin admin, Customer customer) {
         while (true) {
             try {
-                OutPut.displayIntro(customer.getCustomerId(), adminName);
+                OutPut.displayIntro(customer.getId(), adminName);
                 MenuList menuList = menuService.readMenuList();
-                customerService.order(menuList, admin, customer);
+                OutPut.displayMenuList(menuList.getMenuList());
+                customerService.order(admin, customer);
                 if (!isExtraOrder()) {
                     return;
                 }

@@ -9,19 +9,19 @@ public enum Option {
     CUSTOMER_CREATE(3),
     CUSTOMER_LOGIN(4);
 
-    final int num;
+    private final int num;
 
     Option(int num) {
         this.num = num;
     }
 
-    public int getNum() {
+    public int getOptionNum() {
         return num;
     }
 
     public static Option getOption(int num) {
         for (Option option : Option.values()) {
-            if (option.getNum() == num) {
+            if (option.getOptionNum() == num) {
                 return option;
             }
         }

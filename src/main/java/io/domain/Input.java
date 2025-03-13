@@ -1,15 +1,14 @@
 package io.domain;
 
-import admin.dto.AdminCreateDto;
-import admin.domain.Admin;
-import customer.dto.CustomerCreateDto;
-import customer.domain.Customer;
+import static io.domain.OutPut.displayMessage;
+
 import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.List;
 import java.util.Scanner;
-import order.domain.Order;
+import order.dto.OrderItemDto;
 import parser.Parser;
+import user.UserCreateDto;
 
 public class Input {
 
@@ -18,26 +17,16 @@ public class Input {
     private Input() {
     }
 
-    public static Admin inputAdminInfo() {
-        String input = input(InputMessage.CREATE_ADMIN.getMessage());
-        AdminCreateDto adminCreateDto = Parser.parseToAdminInfo(input);
-        return adminCreateDto.to();
+    public static UserCreateDto inputUserInfo(InputMessage inputMessage) {
+           return Parser.parseToUserInfo(input(inputMessage.getMessage()));
     }
 
     public static String inputAdminName() {
         return input(InputMessage.LOGIN_ADMIN.getMessage());
     }
 
-    public static Customer inputCustomerInfo() {
-        String input = input(
-            InputMessage.CREATE_CUSTOMER.getMessage());
-        CustomerCreateDto customerCreateDto = Parser.parseToCustomerInfo(input);
-        return customerCreateDto.to();
-    }
-
-    public static long inputUniqueNumber() {
-        return Long.parseLong(
-            input(InputMessage.LOGIN_CUSTOMER.getMessage()));
+    public static String inputUniqueNumber() {
+        return input(InputMessage.LOGIN_CUSTOMER.getMessage());
     }
 
     public static int inputOption() {
@@ -48,7 +37,7 @@ public class Input {
         return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
     }
 
-    public static List<Order> inputMenu() {
+    public static List<OrderItemDto> inputMenu() {
         String orders = input(InputMessage.ORDER_MENU.getMessage());
         return Parser.parseToOrders(orders);
     }
@@ -58,10 +47,6 @@ public class Input {
         String input = sc.nextLine();
         validateInput(input);
         return input;
-    }
-
-    private static void displayMessage(String message) {
-        System.out.println(message);
     }
 
     private static void validateInput(String input) {
