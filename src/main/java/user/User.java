@@ -1,23 +1,11 @@
 package user;
 
-public abstract class User {
+public interface User {
 
-    private final String id;
-    protected long amount; // 자식에서 수정 가능하게 하기 위해 접근자 protected
+    String getId();
 
-    public User(String id, long amount) {
-        this.id = id;
-        this.amount = amount;
-    }
+    long getAmount();
 
-    public String getId() {
-        return id;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
-    public abstract void updateAmount(long amount);
+    void updateAmount(long amount);
 
 }

@@ -2,9 +2,7 @@ package kiosk;
 
 import static kiosk.Option.getOption;
 
-import admin.domain.Admin;
 import admin.service.AdminService;
-import customer.domain.Customer;
 import customer.service.CustomerService;
 import file.service.FileService;
 import io.domain.Input;
@@ -14,48 +12,65 @@ import io.response.InputMessage;
 import io.response.OutPutMessage;
 import menu.domain.MenuList;
 import menu.service.MenuService;
+import order.dto.OrderDto;
+import payment.service.PaymentService;
+import receipt.ReceiptDto;
+import receipt.service.ReceiptService;
+import user.User;
+import user.UserRepository;
 
 public class KioskService {
 
+    private static final String Y = "Y";
+    private static final String N = "N";
     private final FileService fileService;
     private final MenuService menuService;
     private final AdminService adminService;
     private final CustomerService customerService;
+    private final PaymentService paymentService;
+    private final ReceiptService receiptService;
     private String adminName;
 
     public KioskService() {
         this.fileService = new FileService();
         this.menuService = new MenuService(fileService);
-        this.adminService = new AdminService();
-        this.customerService = new CustomerService();
+        UserRepository userRepository = new UserRepository();
+        this.adminService = new AdminService(userRepository);
+        this.customerService = new CustomerService(userRepository);
+        this.paymentService = new PaymentService();
+        this.receiptService = new ReceiptService();
     }
 
     public void start() {
         menuService.createMenuList();
-        while (true) {
+        boolean isRunning = true;
+        while (isRunning) {
             try {
                 int optionNum = Input.inputOption();
-                selectOption(optionNum);
+                isRunning = selectOption(optionNum);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private void selectOption(int optionNum) {
+    private boolean selectOption(int optionNum) {
         Option option = getOption(optionNum);
         switch (option) {
-            case EXIT -> exit();
+            case EXIT -> {
+                return exit();
+            }
             case ADMIN_CREATE -> createAdmin();
             case ADMIN_LOGIN -> loginAdmin();
             case CUSTOMER_CREATE -> createCustomer();
             case CUSTOMER_LOGIN -> loginCustomer();
         }
+        return true;
     }
 
-    private void exit() {
+    private boolean exit() {
         System.out.println(OutPutMessage.EXIT.getMessage());
-        System.exit(1);
+        return false;
     }
 
     private void createAdmin() {
@@ -71,38 +86,51 @@ public class KioskService {
     }
 
     private void loginCustomer() {
-        Admin admin = adminService.findLoggedInAdminByName(adminName);
-        Customer customer = customerService.login(Input.inputUniqueNumber());
+        User admin = adminService.findLoggedInAdminByName(adminName);
+        User customer = customerService.login(Input.inputUniqueNumber());
         processOrder(admin, customer);
         fileService.saveMenusToFile(menuService.readMenuList());
     }
 
-    private void processOrder(Admin admin, Customer customer) {
+    private void processOrder(User admin, User customer) {
         while (true) {
             try {
-                OutPut.displayIntro(customer.getId(), adminName);
-                MenuList menuList = menuService.readMenuList();
-                OutPut.displayMenuList(menuList.getMenuList());
-                customerService.order(admin, customer);
+                OrderDto order = order(customer.getId());
+                ReceiptDto receipt = pay(order, admin, customer);
+                displayReceipt(receipt, admin, customer);
+
                 if (!isExtraOrder()) {
                     return;
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-                continue;
             }
         }
     }
 
+    private OrderDto order(String id) {
+        OutPut.displayIntro(id, adminName);
+        MenuList menuList = menuService.readMenuList();
+        OutPut.displayMenuList(menuList.getMenuList());
+        return customerService.order();
+    }
+
+    private ReceiptDto pay(OrderDto order, User admin, User customer) {
+        return paymentService.pay(order, admin, customer);
+    }
+
+    private void displayReceipt(ReceiptDto receipt, User admin, User customer) {
+        receiptService.displayReceipt(receipt, admin, customer);
+    }
+
     private boolean isExtraOrder() {
         String yesOrNo = Input.isExtraOrder();
-        if (yesOrNo.equals("Y")) {
-            return true;
-        }
-        if (yesOrNo.equals("N")) {
-            return false;
-        }
-        throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());
+        return switch (yesOrNo) {
+            case Y -> true;
+            case N -> false;
+            default ->
+                throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());
+        };
     }
 
 }

@@ -7,7 +7,7 @@ public enum MenuStatus {
     WON("원"),
     ;
 
-    private String name;
+    private final String name;
 
     MenuStatus(String name) {
         this.name = name;

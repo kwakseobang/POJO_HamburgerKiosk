@@ -1,8 +1,7 @@
 package payment.domain;
 
-import admin.domain.Admin;
-import customer.domain.Customer;
 import order.domain.OrderItem;
+import user.User;
 
 public class Payment {
 
@@ -36,7 +35,7 @@ public class Payment {
         return price;
     }
 
-    public void updateAmount(Admin admin, Customer customer) {
+    public void updateAmount(User admin, User customer) {
         customer.updateAmount(this.price);
         admin.updateAmount(this.price);
     }

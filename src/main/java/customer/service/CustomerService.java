@@ -1,40 +1,41 @@
 package customer.service;
 
-import admin.domain.Admin;
 import customer.domain.Customer;
-import customer.repository.CustomerRepository;
 import customer.response.CustomerErrorMessage;
 import io.domain.Input;
+import order.dto.OrderDto;
 import order.service.OrderService;
+import user.User;
+import user.UserRepository;
 
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final OrderService orderService;
 
-    public CustomerService() {
-        this.customerRepository = new CustomerRepository();
+    public CustomerService(UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.orderService = new OrderService();
     }
 
     public void create(Customer customer) {
-        if (customerRepository.isExistId(customer.getId())) {
+        if (userRepository.isExistById(customer.getId())) {
             throw new IllegalArgumentException(
                 String.format(CustomerErrorMessage.DUPLICATION_CUSTOMER.getMessage(),
                     customer.getId()));
         }
-        customerRepository.create(customer);
+        userRepository.create(customer);
     }
 
-    public Customer login(String id) {
-        return customerRepository.findByCustomer(id)
+    public User login(String id) {
+        return userRepository.findByUser(id)
             .orElseThrow(() -> new IllegalArgumentException(
                 String.format(CustomerErrorMessage.NOT_EXIST_CUSTOMER.getMessage(), id)
             ));
     }
 
-    public void order(Admin admin, Customer customer) {
-        orderService.order(Input.inputMenu(), admin, customer);
+    public OrderDto order() {
+        return orderService.order(Input.inputMenu());
     }
 
 }
