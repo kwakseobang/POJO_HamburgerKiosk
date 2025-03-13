@@ -28,6 +28,7 @@ public class PaymentService {
             customer);
         long totalPrice = order.getTotalPrice();
         long totalQuantity = order.getTotalQuantity();
+        // TODO: 바로 영수증 객체에게 메시지를 보내는 게 아닌 결제 정보 반환 후 Kiosk 에서 처리 예정.
         receiptService.displayReceipt(new ReceiptDto(paymentList, admin, customer, totalQuantity, totalPrice));
     }
 
