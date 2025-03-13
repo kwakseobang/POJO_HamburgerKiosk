@@ -32,6 +32,30 @@
 - 하드코딩된 숫자 또는 문자열을 사용하지 않는다. (상수를 활용)
 -  접근제어자를 명확히 구분하고, 필요하지 않은 경우 public 사용을 지양한다. setter()는 쓰지 않는다.
 
+## 예외 처리
+#### user
+- DUPLICATION_ADMIN("[ERROR] - 해당 관리자는 이미 존재합니다: %s")
+- NOT_EXIST_ADMIN("[ERROR] - 존재하지 않는 관리자입니다: %s")
+- UNAUTHORIZED_ADMIN("[ERROR] - 관리자가 로그인하지 않았습니다.") 
+- DUPLICATION_CUSTOMER("[ERROR] - 해당 회원은 이미 존재합니다: %s")
+- NOT_EXIST_CUSTOMER("[ERROR] - 존재하지 않는 회원입니다: %s")
+- NOT_ENOUGH_MONEY("[ERROR] - 잔액이 부족합니다.")
+#### file
+- EMPTY_FILE("[ERROR] - 파일이 존재하지 않습니다.")
+- FAILED_READ_FILE("[ERROR] - 파일 읽기에 실패했습니다.")
+- EMPTY_INPUT("[ERROR] - 입력이 존재하지 않습니다.")
+#### input
+- INVALID_INPUT("[ERROR] - 올바르지 않은 형식으로 입력했습니다.")
+- INVALID_DELIMITER("[ERROR] - 허용되지 않은 구분자입니다.")
+- INVALID_OPTION("[ERROR] - 존재하지 않는 옵션입니다.")
+- FAILED_WRITE_FILE("[ERROR] - 파일 쓰기에 실패했습니다.")
+#### Menu
+- NOT_EXIST_MENU("[ERROR] - 존재하지 않는 상품입니다: %s")
+- NOT_EXIST_CATEGORY("[ERROR] - 존재하지 않는 카테고리입니다: %s")
+- NOT_EXIST_MENU_STATUS("[ERROR] - 존재하지 않는 형식입니다: %s")
+- INVALID_QUANTITY("[ERROR] - 재고 수량을 초과하여 구매할 수 없습니다.")
+- INVALID_BUY("[ERROR] - 품절된 메뉴입니다: %s")
+
 ## 🔥 Task
 1. 프로그램 초기 셋팅
 2. 각 도메인 별 예외 메세지 정의 
@@ -47,6 +71,8 @@
 12. 영수증 출력 기능 구현
 13. 추가 구매 여부 구현
 
+## 다이어그램
+![img.png](img.png)
 
 ## 🤝 Git Convention
 
