@@ -101,7 +101,7 @@ public class Menu {
     }
 
     private void validateQuantity(Menu menu, long orderedQuantity) {
-        if (this.isSoldOut) {
+        if (menu.isSoldOut) {
             throw new IllegalArgumentException(
                 String.format(MenuErrorMessage.INVALID_BUY.getMessage(), this.name));
         }
