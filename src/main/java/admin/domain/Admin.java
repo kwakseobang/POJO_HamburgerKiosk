@@ -2,10 +2,24 @@ package admin.domain;
 
 import user.User;
 
-public class Admin extends User {
+public class Admin implements User {
+
+    private final String id;
+    private long amount;
 
     public Admin(String id, long amount) {
-        super(id, amount);
+        this.id = id;
+        this.amount = amount;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public long getAmount() {
+        return amount;
     }
 
     @Override

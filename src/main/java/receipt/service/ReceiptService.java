@@ -4,10 +4,11 @@ import io.domain.OutPut;
 import java.util.List;
 import payment.domain.Payment;
 import receipt.ReceiptDto;
+import user.User;
 
 public class ReceiptService {
 
-    public void displayReceipt(ReceiptDto receiptDto) {
+    public void displayReceipt(ReceiptDto receiptDto, User admin, User customer) {
 
         OutPut.displayReceiptHeader();
         List<Payment> payments = receiptDto.paymentList();
@@ -15,8 +16,8 @@ public class ReceiptService {
             OutPut.displayReceiptBody(payment);
         }
         OutPut.displayReceiptFooter(
-            receiptDto.admin(),
-            receiptDto.customer(),
+            admin,
+            customer,
             receiptDto.totalQuantity(),
             receiptDto.totalPrice());
     }

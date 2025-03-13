@@ -1,12 +1,11 @@
 package io.domain;
 
-import admin.domain.Admin;
-import customer.domain.Customer;
 import io.response.OutPutMessage;
 import java.util.List;
 import menu.domain.Menu;
 import menu.domain.MenuStatus;
 import payment.domain.Payment;
+import user.User;
 
 public class OutPut {
 
@@ -50,8 +49,8 @@ public class OutPut {
     }
 
     public static void displayReceiptFooter(
-        Admin admin,
-        Customer customer,
+        User admin,
+        User customer,
         long totalQuantity,
         long totalPrice
     ) {

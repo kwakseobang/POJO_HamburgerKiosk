@@ -2,25 +2,26 @@ package admin.service;
 
 
 import admin.domain.Admin;
-import admin.repository.AdminRepository;
 import admin.response.AdminErrorMessage;
 import java.util.HashMap;
+import user.User;
+import user.UserRepository;
 
 public class AdminService {
 
-    private final AdminRepository adminRepository;
-    private final HashMap<String, Admin> loggedInAdmin = new HashMap<>();
+    private final UserRepository userRepository;
+    private final HashMap<String, User> loggedInAdmin = new HashMap<>();
 
-    public AdminService() {
-        this.adminRepository = new AdminRepository();
+    public AdminService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public void create(Admin admin) {
+    public void create(User admin) {
         validateDuplicateAdminName(admin.getId());
-        adminRepository.create(admin);
+        userRepository.create(admin);
     }
 
-    public Admin findLoggedInAdminByName(String adminName) {
+    public User findLoggedInAdminByName(String adminName) {
         if (loggedInAdmin.containsKey(adminName)) {
             return loggedInAdmin.get(adminName);
         }
@@ -28,20 +29,20 @@ public class AdminService {
     }
 
     public String login(String name) {
-        Admin admin = findAdminByName(name);
+        User admin = findAdminByName(name);
         loggedInAdmin.put(name, admin);
         return admin.getId();
     }
 
-    private Admin findAdminByName(String name) {
-        return adminRepository.findByAdmin(name)
+    private User findAdminByName(String name) {
+        return userRepository.findByUser(name)
             .orElseThrow(() -> new IllegalArgumentException(
                 String.format(AdminErrorMessage.NOT_EXIST_ADMIN.getMessage(), name)
             ));
     }
 
     private void validateDuplicateAdminName(String name) {
-        if (adminRepository.isExistByName(name)) {
+        if (userRepository.isExistById(name)) {
             throw new IllegalArgumentException(
                 String.format(AdminErrorMessage.DUPLICATION_ADMIN.getMessage(), name)
             );
