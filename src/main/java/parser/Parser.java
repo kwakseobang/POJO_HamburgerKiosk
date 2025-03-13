@@ -10,7 +10,7 @@ import io.response.InputErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
 import menu.domain.Category;
-import order.dto.OrderCreateDto;
+import order.dto.OrderItemDto;
 import user.UserCreateDto;
 import util.StringConverter;
 
@@ -39,11 +39,11 @@ public class Parser {
         return new UserCreateDto(id, amount);
     }
 
-    public static List<OrderCreateDto> parseToOrders(String orders) {
+    public static List<OrderItemDto> parseToOrders(String orders) {
         validateBracket(orders);
 
         String[] parsedOrder = StringConverter.toStringArray(orders);
-        List<OrderCreateDto> orderList = new ArrayList<>();
+        List<OrderItemDto> orderList = new ArrayList<>();
 
         for (String order : parsedOrder) {
             String[] orderItems = parseToOrder(order.trim());
@@ -71,12 +71,12 @@ public class Parser {
         return order.split(HYPHEN.getDelimiter());
     }
 
-    private static void appendOrder(String[] orderItems, List<OrderCreateDto> orderList) {
+    private static void appendOrder(String[] orderItems, List<OrderItemDto> orderList) {
         if (orderItems.length == ORDER_ITEMS_COUNT) {
             String menuName = orderItems[0];
             long quantity = parseToLong(orderItems[1]);
-            OrderCreateDto orderCreateDto = new OrderCreateDto(menuName, quantity);
-            orderList.add(orderCreateDto);
+            OrderItemDto orderItemDto = new OrderItemDto(menuName, quantity);
+            orderList.add(orderItemDto);
             return;
         }
         throw new IllegalArgumentException(InputErrorMessage.INVALID_INPUT.getMessage());

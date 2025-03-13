@@ -6,7 +6,7 @@ import io.response.InputErrorMessage;
 import io.response.InputMessage;
 import java.util.List;
 import java.util.Scanner;
-import order.dto.OrderCreateDto;
+import order.dto.OrderItemDto;
 import parser.Parser;
 import user.UserCreateDto;
 
@@ -37,7 +37,7 @@ public class Input {
         return input(InputMessage.EXTRA_ORDER_MENU.getMessage());
     }
 
-    public static List<OrderCreateDto> inputMenu() {
+    public static List<OrderItemDto> inputMenu() {
         String orders = input(InputMessage.ORDER_MENU.getMessage());
         return Parser.parseToOrders(orders);
     }

@@ -1,5 +1,9 @@
 package payment.domain;
 
+import admin.domain.Admin;
+import customer.domain.Customer;
+import order.domain.OrderItem;
+
 public class Payment {
 
     private final String name;
@@ -13,8 +17,11 @@ public class Payment {
     }
 
     // 생성 시 유효성 검사, 변환, 추가 로직 등 다양하게 사용 가능
-    public static Payment createPayment(String name, long price, long quantity) {
-        return new Payment(name,price,quantity);
+    public static Payment createPayment(OrderItem orderItem) {
+        String menuName = orderItem.getMenuName();
+        long payPrice = orderItem.getPrice() * orderItem.getQuantity();
+        long menuQuantity = orderItem.getQuantity();
+        return new Payment(menuName, payPrice, menuQuantity);
     }
 
     public String getName() {
@@ -27,6 +34,11 @@ public class Payment {
 
     public long getPrice() {
         return price;
+    }
+
+    public void updateAmount(Admin admin, Customer customer) {
+        customer.updateAmount(this.price);
+        admin.updateAmount(this.price);
     }
 
 }

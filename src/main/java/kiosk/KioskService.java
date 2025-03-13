@@ -31,7 +31,7 @@ public class KioskService {
     }
 
     public void start() {
-        fileLoad();
+        menuService.createMenuList();
         while (true) {
             try {
                 int optionNum = Input.inputOption();
@@ -40,10 +40,6 @@ public class KioskService {
                 System.out.println(e.getMessage());
             }
         }
-    }
-
-    private void fileLoad() {
-        menuService.createMenuList();
     }
 
     private void selectOption(int optionNum) {
@@ -86,7 +82,8 @@ public class KioskService {
             try {
                 OutPut.displayIntro(customer.getId(), adminName);
                 MenuList menuList = menuService.readMenuList();
-                customerService.order(menuList, admin, customer);
+                OutPut.displayMenuList(menuList.getMenuList());
+                customerService.order(admin, customer);
                 if (!isExtraOrder()) {
                     return;
                 }

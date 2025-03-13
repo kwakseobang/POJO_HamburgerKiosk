@@ -5,7 +5,7 @@ import menu.domain.MenuList;
 
 public class MenuRepository {
 
-    private MenuList menuList;
+    private final MenuList menuList;
 
     public MenuRepository() {
         menuList = new MenuList();

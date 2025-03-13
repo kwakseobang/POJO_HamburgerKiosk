@@ -1,26 +1,24 @@
 package receipt.service;
 
-import admin.domain.Admin;
-import customer.domain.Customer;
 import io.domain.OutPut;
 import java.util.List;
 import payment.domain.Payment;
+import receipt.ReceiptDto;
 
 public class ReceiptService {
 
-    public void displayReceipt(
-        List<Payment> paymentList,
-        Admin admin,
-        Customer customer,
-        long totalQuantity,
-        long totalPrice
+    public void displayReceipt(ReceiptDto receiptDto) {
 
-    ) {
         OutPut.displayReceiptHeader();
-        for (Payment payment : paymentList) {
+        List<Payment> payments = receiptDto.paymentList();
+        for (Payment payment : payments) {
             OutPut.displayReceiptBody(payment);
         }
-        OutPut.displayReceiptFooter(admin, customer, totalQuantity, totalPrice);
+        OutPut.displayReceiptFooter(
+            receiptDto.admin(),
+            receiptDto.customer(),
+            receiptDto.totalQuantity(),
+            receiptDto.totalPrice());
     }
 
 }

@@ -1,6 +1,7 @@
 package menu.domain;
 
 import menu.response.MenuErrorMessage;
+import parser.Parser;
 
 public class Menu {
 
@@ -47,7 +48,6 @@ public class Menu {
         );
     }
 
-
     public String getName() {
         return name;
     }
@@ -84,6 +84,18 @@ public class Menu {
         this.quantity = quantity;
     }
 
+    private long calculateQuantity(long newQuantity) {
+        return this.quantity - newQuantity;
+    }
+
+    private static boolean checkedSoldOut(Long quantity) {
+        return quantity == 0;
+    }
+
+    private void updateSoldOutStatus() {
+        this.isSoldOut = true;
+    }
+
     public Menu validateOrderedMenu(long orderedQuantity) {
         validateQuantity(this, orderedQuantity);
         if (category.getName().equals(Category.SET.getName())) {
@@ -109,16 +121,39 @@ public class Menu {
         validateQuantity(potato, orderedQuantity);
     }
 
-    private void updateSoldOutStatus() {
-        this.isSoldOut = true;
+    public void updateMenuQuantity(long quantity) {
+        String category = this.category.getName();
+        if (category.equals(Category.SET.getName()) ||
+            category.equals(Category.HAMBURGER.getName())
+        ) {
+            updateSetOrBurger(quantity);
+            return;
+        }
+        this.updateQuantity(quantity);
+    }
+    // Set 이든 Burger 이던 Burger 수량은 감소해야함.
+    private void updateSetOrBurger(long quantity) {
+        String category = this.category.getName();
+        if (category.equals(Category.SET.getName())) {
+            updateSide(quantity);
+        }
+        updateBurger(quantity);
     }
 
-    private long calculateQuantity(long newQuantity) {
-        return this.quantity - newQuantity;
+    private void updateSide(long quantity) {
+        Menu potatoMenu = Menu.findByMenu(Set.POTATO.getName());
+        Menu drinkMenu = Menu.findByMenu(Set.DRINK.getName());
+        potatoMenu.updateQuantity(quantity);
+        drinkMenu.updateQuantity(quantity);
     }
 
-    private static boolean checkedSoldOut(Long quantity) {
-        return quantity == 0;
+    private void updateBurger(Long quantity) {
+        // 햄버거세트일 경우 버거 이름만 추출 후 반환. 햄버거일 경우 그대로 반환
+        String burgerName = Parser.parseToBurgerName(this.name);
+        Menu burger = Menu.findByMenu(burgerName);
+        Menu burgerSet = Menu.findByMenu(burgerName + Category.SET.getName());
+        burger.updateQuantity(quantity);
+        burgerSet.updateQuantity(quantity);
     }
 
 }

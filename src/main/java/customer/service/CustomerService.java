@@ -5,8 +5,6 @@ import customer.domain.Customer;
 import customer.repository.CustomerRepository;
 import customer.response.CustomerErrorMessage;
 import io.domain.Input;
-import io.domain.OutPut;
-import menu.domain.MenuList;
 import order.service.OrderService;
 
 public class CustomerService {
@@ -35,12 +33,7 @@ public class CustomerService {
             ));
     }
 
-    /* TODO:
-        메뉴리스트는 출력 용으로 밖에 쓰이는데 출력을 차리라 메뉴리스트를 넘기지말고 호출하는 쪽으로 옮길까
-        고민 중.. 키오스크가 주문객체에게 전달하는건다. 그럼 customer 서비스에서 하는 게 주문 요청도 안하고 생성 로그인만 하는데..
-    */
-    public void order(MenuList menuList, Admin admin, Customer customer) {
-        OutPut.displayMenuList(menuList.getMenuList());
+    public void order(Admin admin, Customer customer) {
         orderService.order(Input.inputMenu(), admin, customer);
     }
 

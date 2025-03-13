@@ -1,29 +1,47 @@
 package order.domain;
 
-import menu.domain.Menu;
+import java.util.List;
 
 public class Order {
 
-    private Menu menu;
-    private long quantity;
+    private long totalPrice;
+    private long totalQuantity;
+    private final List<OrderItem> orderItems;
 
-    private Order(Menu menu, long quantity) {
-        this.menu = menu;
-        this.quantity = quantity;
+    private Order(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+        calculateTotalPrice();
+        calculateTotalQuantity();
     }
 
-    public static Order createOrder(String name, long quantity) {
-        Menu orededMenu = Menu.findByMenu(name);
-        Menu valiedMenu = orededMenu.validateOrderedMenu(quantity);
-        return new Order(valiedMenu, quantity);
+    public static Order createOrder(List<OrderItem> orderItems) {
+       return new Order(orderItems);
     }
 
-    public Menu getMenu() {
-        return menu;
+    public long getTotalPrice() {
+        return totalPrice;
     }
 
-    public long getQuantity() {
-        return quantity;
+    public long getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public List<OrderItem> getOrderItem() {
+        return orderItems;
+    }
+
+    private void calculateTotalPrice() {
+        this.totalPrice = orderItems
+            .stream()
+            .mapToLong(item -> item.getPrice() * item.getQuantity())
+            .sum();
+    }
+
+    private void calculateTotalQuantity() {
+        this.totalQuantity = orderItems
+            .stream()
+            .mapToLong(OrderItem::getQuantity)
+            .sum();
     }
 
 }
