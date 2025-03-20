@@ -17,20 +17,17 @@ public class Input {
     private Input() {
     }
 
-    public static UserCreateDto inputUserInfo(InputMessage inputMessage) {
-           return Parser.parseToUserInfo(input(inputMessage.getMessage()));
+    public static UserCreateDto inputUserInfo(String message) {
+           return Parser.parseToUserInfo(input(message));
     }
 
-    public static String inputAdminName() {
-        return input(InputMessage.LOGIN_ADMIN.getMessage());
-    }
-
-    public static String inputUniqueNumber() {
-        return input(InputMessage.LOGIN_CUSTOMER.getMessage());
+    public static String inputUserId(String message) {
+        return input(message);
     }
 
     public static int inputOption() {
-        return Parser.parseToInteger(input(InputMessage.DISPLAY_OPTION.getMessage()));
+        String option = input(InputMessage.DISPLAY_OPTION.getMessage());
+        return Parser.parseToInteger(option);
     }
 
     public static String isExtraOrder() {

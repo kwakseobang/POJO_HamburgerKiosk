@@ -2,7 +2,9 @@ package kiosk;
 
 import static kiosk.Option.getOption;
 
+import admin.domain.Admin;
 import admin.service.AdminService;
+import customer.domain.Customer;
 import customer.service.CustomerService;
 import file.service.FileService;
 import io.domain.Input;
@@ -74,20 +76,33 @@ public class KioskService {
     }
 
     private void createAdmin() {
-        adminService.create(Input.inputUserInfo(InputMessage.CREATE_ADMIN).toAdmin());
+        String message = InputMessage.CREATE_ADMIN.getMessage();
+        Admin admin = Input.inputUserInfo(message).toAdmin();
+
+        adminService.create(admin);
     }
 
     private void loginAdmin() {
-        adminName = adminService.login(Input.inputAdminName());
+        String message = InputMessage.LOGIN_ADMIN.getMessage();
+        String adminId = Input.inputUserId(message);
+
+        adminName = adminService.login(adminId);
     }
 
     private void createCustomer() {
-        customerService.create(Input.inputUserInfo(InputMessage.CREATE_CUSTOMER).toCustomer());
+        String message = InputMessage.CREATE_CUSTOMER.getMessage();
+        Customer customer = Input.inputUserInfo(message).toCustomer();
+
+        customerService.create(customer);
     }
 
     private void loginCustomer() {
         User admin = adminService.findLoggedInAdminByName(adminName);
-        User customer = customerService.login(Input.inputUniqueNumber());
+
+        String message = InputMessage.LOGIN_CUSTOMER.getMessage();
+        String customerId = Input.inputUserId(message);
+        User customer = customerService.login(customerId);
+
         processOrder(admin, customer);
         fileService.saveMenusToFile(menuService.readMenuList());
     }
@@ -96,7 +111,7 @@ public class KioskService {
         while (true) {
             try {
                 OrderDto order = order(customer.getId());
-                ReceiptDto receipt = pay(order, admin, customer);
+                ReceiptDto receipt = paymentService.pay(order, admin, customer);
                 displayReceipt(receipt, admin, customer);
 
                 if (!isExtraOrder()) {
@@ -110,13 +125,11 @@ public class KioskService {
 
     private OrderDto order(String id) {
         OutPut.displayIntro(id, adminName);
+
         MenuList menuList = menuService.readMenuList();
         OutPut.displayMenuList(menuList.getMenuList());
-        return customerService.order();
-    }
 
-    private ReceiptDto pay(OrderDto order, User admin, User customer) {
-        return paymentService.pay(order, admin, customer);
+        return customerService.order();
     }
 
     private void displayReceipt(ReceiptDto receipt, User admin, User customer) {
