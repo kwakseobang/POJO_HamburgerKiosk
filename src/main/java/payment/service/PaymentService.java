@@ -22,11 +22,7 @@ public class PaymentService {
         return new ReceiptDto(paymentList, totalQuantity, totalPrice);
     }
 
-    private List<Payment> createPaymentList(
-        Order order,
-        User admin,
-        User customer
-    ) {
+    private List<Payment> createPaymentList(Order order, User admin, User customer) {
         List<Payment> paymentList = new ArrayList<>();
         List<OrderItem> orderItems = order.getOrderItem();
 
